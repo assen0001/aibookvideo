@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI读书视频创作平台 - 一站式全流程生成AI读书短视频</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00a8ff;
+            --secondary-color: #7b2dff;
+            --text-color: #ffffff;
+            --light-bg: #f8f9fa;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0a192f;
+            color: var(--text-color);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        .tech-heading {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 168, 255, 0.1);
+            border-color: var(--primary-color);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 168, 255, 0.3);
+        }
+        .tech-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, rgba(0,168,255,0.03) 0%, rgba(123,45,255,0.03) 100%),
+                url('/static/images/p3.png') no-repeat center center;
+            background-size: cover;
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand tech-heading" href="/">AI读书视频创作平台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">操作说明</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/booklist">演示入口</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://space.bilibili.com/1105978078/upload/video" target="_blank">视频案例</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="display-4 mb-4 tech-heading">AI读书视频创作平台</h1>
+                <p class="lead">一站式全流程生成AI读书短视频</p>
+                <p class="lead">输入1个主题 → 输出1部专业级短视频（含分镜/画面/配音/剪辑）</p>
+            </div>
+            <div class="d-flex align-items-center justify-content-center gap-3 mb-4">
+                <a href="/booklist" class="btn btn-primary btn-lg">立即体验平台演示</a>                    
+            </div>
+        </div>
+
+        <div class="row mt-5 align-items-stretch">
+            <div class="col-md-6 d-flex flex-column">
+                <div>
+                    <h2 style="font-size: 1.8rem;">平台功能定位</h2>
+                    <p style="font-size: 1.1rem;">基于开源技术栈的本地化部署AI读书短视频创作平台，</p>
+                    <p style="font-size: 1.1rem;">实现从主题到视频的全流程自动化生产。</p>
+                </div>                
+                <div style="margin-top: 220px;">
+                    <h2 class="mt-4" style="font-size: 1.8rem;">平台核心技术</h2>
+                    <ul style="font-size: 1.1rem;">
+                        <li>自研AI读书视频创作平台</li>
+                        <li>N8N智能体流程调度平台</li>
+                        <li>大语言模型：Ollama+DeepSeek</li>
+                        <li>ComfyUI生图模型</li>
+                        <li>通义万相wan2.1视频模型</li>
+                        <li>OpenVoice语音合成</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="/static/images/p1.png" class="img-fluid rounded mb-3 shadow" alt="平台截图">
+                <img src="/static/images/p2.png" class="img-fluid rounded shadow" alt="平台截图">
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2>平台优势</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title bold">本地化部署</h5>
+                                <p class="card-text">全部采用本地化部署，无需调用外部API，无额外成本</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title bold">AI智能编剧</h5>
+                                <p class="card-text">可按书籍类型定制文案生成模板</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title bold">低成本批量创建</h5>
+                                <p class="card-text">本地化部署，无额外视频创作成本</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title bold">多平台适配</h5>
+                                <p class="card-text">支持抖音、B站、小红书、今日头条等平台</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5 text-center">
+            <div class="col-md-7 mx-auto">
+                <div class="d-flex align-items-center justify-content-center gap-3 mb-4">
+                    <img src="/static/images/p4.png" class=" rounded shadow" alt="平台截图">   
+                </div>
+                <div class="d-flex align-items-center justify-content-center gap-3 mb-4">
+                    <a href="/booklist" class="btn btn-primary btn-lg">立即体验平台演示</a>                    
+                </div>
+                <div class="mt-4">
+                    <h4>联系我们</h4>
+                    <p>扫微信二维码进微信交流群</p>
+                    <img src="/static/images/wx001.jpg" class="img-fluid shadow" style="max-width: 200px;" alt="微信二维码">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-4 mt-5 bg-light">
+        <div class="container" style="color: #000000;">
+            <p>金智创影工场 © 2025 | <a href="https://beian.miit.gov.cn/" target="_blank">浙ICP备2024122053号</a></p>
+        </div>
+    </footer>
+
+    <script src="/static/js/jquery-3.6.0.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 卡片悬停动画
+            $('.card').hover(
+                function() { $(this).addClass('shadow-lg'); },
+                function() { $(this).removeClass('shadow-lg'); }
+            );
+            
+            // 图片放大效果
+            $('.col-md-6 img').hover(
+                function() {
+                    $(this).css({
+                        'transform': 'scale(1.5)',
+                        'z-index': '1000',
+                        'transition': 'transform 0.3s ease',
+                        'position': 'relative'
+                    });
+                },
+                function() {
+                    $(this).css({
+                        'transform': 'scale(1)',
+                        'z-index': 'auto'
+                    });
+                }
+            );
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+dist/
+build/
+*.egg-info/
+*.log
+*.sql
+*.sqlite
+*.idea
+*.vscode
+*.iml
+.env
+static/uploads/
+requirements.md

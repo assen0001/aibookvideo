@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mt-4">字幕转语音</h2>
+    
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>字幕转语音管理</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">选择书单：</label>
+                <div class="col-sm-10">
+                    <select id="bookSelect" class="form-control" style="width: 380px;">
+                        <option value="">-- 请选择书单 --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row mt-3">
+                <label class="col-sm-2 col-form-label">字幕内容：</label>
+                <div class="col-sm-10">
+                    <textarea id="subtitleContent" class="form-control" rows="15" style="width:880px" ></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row mt-3">
+                <label class="col-sm-2 col-form-label">选择音色：</label>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice1" value="阿泽-通用男声" checked>
+                        <label class="form-check-label" for="voice1">阿泽-通用男声</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice2" value="潇潇-通用女声">
+                        <label class="form-check-label" for="voice2">潇潇-通用女声</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice3" value="阿飞-播音男声">
+                        <label class="form-check-label" for="voice3">阿飞-播音男声</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice4" value="文君-播音女声">
+                        <label class="form-check-label" for="voice4">文君-播音女声</label>
+                    </div>
+                    <div class="form-check form-check-inline" style="width: 160px;">
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice5" value="阿伟-短视频男声">
+                        <label class="form-check-label" for="voice5">阿伟-短视频男声</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mt-4">
+                <div class="col-sm-10 offset-sm-2">
+                    <button id="submitBtn" class="btn btn-primary">字幕转换成语音</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 显示已完成的语音控件 --->
+    <div class="card mt-4" id="voiceListContainer" style="display:none;">
+        <div class="card-header">
+            <h5>已生成语音</h5>
+        </div>
+        <div class="card-body" id="voiceList">
+            <!-- 音频控件将在这里动态生成 -->
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="{{ url_for('static', filename='js/txt2voice.js') }}"></script>
+{% endblock %}
