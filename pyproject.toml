@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "flask>=3.1.1",
     "pymysql>=1.1.1",
-    "dotenv==0.9.9"
+    "dotenv==0.9.9",
+    "moviepy>=2.2.1",
 ]
 

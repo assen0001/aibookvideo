@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from common import get_db_connection
+from videoprocess import process_videos
 
 videomerge_bp = Blueprint('videomerge', __name__)
 

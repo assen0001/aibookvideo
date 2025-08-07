@@ -14,5 +14,6 @@ build/
 *.iml
 .env
 static/uploads/
+static/font/
 requirements.md
 uv.lock
