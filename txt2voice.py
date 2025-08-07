@@ -48,8 +48,8 @@ def update_voice_status():
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            UPDATE ai_voicelist 
-            SET voider_status = %s 
+            UPDATE ai_voicemerge 
+            SET voice_status = %s 
             WHERE id = %s
         """, (data['status'], data['voice_id']))
         conn.commit()
@@ -72,8 +72,8 @@ def get_voice_list():
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            SELECT id, voider_url, create_time, voider_status
-            FROM ai_voicelist
+            SELECT id, voice_url, create_time, voice_status
+            FROM ai_voicemerge
             WHERE book_id = %s
             ORDER BY id DESC
         """, (book_id,))
@@ -96,7 +96,7 @@ def delete_voice():
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            DELETE FROM ai_voicelist 
+            DELETE FROM ai_voicemerge 
             WHERE id = %s
         """, (data['voice_id'],))
         conn.commit()

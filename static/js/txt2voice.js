@@ -22,8 +22,7 @@ $(document).ready(function() {
         }
     });
 
-    const N8N_URL = config.N8N_URL;
-    const COMFYUI_URL = config.COMFYUI_URL;
+    const COQUI_URL = config.COQUITTS_URL;
     
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -96,11 +95,21 @@ $(document).ready(function() {
                 return;
             }
 
-            // TODO: 调用后端接口处理字幕转语音
-            console.log('提交数据:', {
-                bookId: bookId,
-                voiceType: voiceType,
-                subtitleContent: subtitleContent
+            // 禁用按钮并显示"转换中..."文字
+            const $submitBtn = $(this);
+            const originalText = $submitBtn.text();
+            $submitBtn.prop('disabled', true).text('转换中...').addClass('disabled');
+            
+            // 构造请求URL
+            const url = COQUI_URL + "/create/" + bookId;
+            
+            // 发送GET请求
+            $.get(url, function(response) {
+                // console.log('已提交字幕转语音操作，请关注后台进度:', response);
+                alert('已提交字幕转语音操作，请关注后台进度!');
+            }).fail(function(xhr, status, error) {
+                // console.error('字幕转语音失败:', error);
+                alert('字幕转语音失败：' + error);
             });
         }
     });
@@ -129,18 +138,18 @@ $(document).ready(function() {
                         const audioElement = `
                             <div class="mb-3 d-flex align-items-center">                                
                                 <audio controls style="width:650px">
-                                    <source src="/static/uploads/voice/${voice.voider_url}" type="audio/mpeg">
+                                    <source src="${COQUI_URL}/${voice.voice_url}" type="audio/mpeg">
                                     您的浏览器不支持音频元素
                                 </audio>
                                 &nbsp;&nbsp;
-                                是否选中：<input type="checkbox" class="form-check-input me-3" ${voice.voider_status === 1 ? 'checked' : ''} 
+                                是否选中：<input type="checkbox" class="form-check-input me-3" ${voice.voice_status === 1 ? 'checked' : ''} 
                                     onchange="updateVoiceStatus(${voice.id}, this.checked ? 1 : 0)">
                                 &nbsp;&nbsp;
                                 生成时间：<small class="text-muted ms-3">${formatDateTime(voice.create_time)}</small>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <button class="btn btn-danger btn-sm" onclick="deleteVoice(${voice.id})">删除</button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-primary btn-sm" onclick="downloadVoice(${voice.id}, '${voice.voider_url}')">下载</button>
+                                <button class="btn btn-primary btn-sm" onclick="downloadVoice(${voice.id}, '${voice.voice_url}')">下载</button>
                             </div>
                         `;
                         voiceList.append(audioElement);
@@ -159,6 +168,7 @@ $(document).ready(function() {
     $('#bookSelect').change(function() {
         const bookId = $(this).val();
         if (bookId) {
+            setCookie('selectedBookId', bookId, 7); // 保存7天
             loadSubtitleContent(bookId);
             loadVoiceList(bookId);
         } else {
@@ -220,7 +230,8 @@ $(document).ready(function() {
     // 下载语音
     window.downloadVoice = function(voiceId, filename) {
         const link = document.createElement('a');
-        link.href = `/static/uploads/voice/${filename}`;
+        link.href = `${COQUI_URL}/${filename}`;
+        link.target = '_blank';  // 在新窗口中打开
         link.download = filename;
         document.body.appendChild(link);
         link.click();
