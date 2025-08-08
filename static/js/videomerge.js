@@ -1,16 +1,16 @@
 $(document).ready(function() {
     // 从配置读取URL
-    let config = {};
-    $.ajax({
-        url: '/get_config',
-        async: false,
-        success: function(data) {
-            config = data;
-        }
-    });
+    // let config = {};
+    // $.ajax({
+    //     url: '/get_config',
+    //     async: false,
+    //     success: function(data) {
+    //         config = data;
+    //     }
+    // });
 
-    const N8N_URL = config.N8N_URL;
-    const COMFYUI_URL = config.COMFYUI_URL;
+    // const N8N_URL = config.N8N_URL;
+    // const COMFYUI_URL = config.COMFYUI_URL;
     
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -71,12 +71,43 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 data: JSON.stringify({
                     book_id: bookId
-                })
+                }),
+                success: function() {
+                    // 合成请求已发送，开始轮询检查结果
+                    location.reload(); // 刷新页面
+                },
+                error: function(xhr, status, error) {
+                    // console.error('视频合成请求失败:', error);
+                    // alert('视频合成请求失败，请重试');
+                    // $btn.prop('disabled', false);
+                    // $btn.text('视频合成');
+                    location.reload(); // 刷新页面
+                }
             });
         }
     });
 
-
+    // 新增轮询检查函数
+    // function startPolling(bookId, $btn) {
+    //     const pollInterval = setInterval(function() {
+    //         $.ajax({
+    //             url: '/get_video_list?book_id=' + bookId,
+    //             type: 'GET',
+    //             success: function(data) {
+    //                 // 检查是否有视频数据返回，如果有说明合成完成
+    //                 if (data && data.length > 0) {
+    //                     clearInterval(pollInterval);
+    //                     alert('视频合成功能！');
+    //                     location.reload(); // 刷新页面
+    //                 }
+    //             },
+    //             error: function() {
+    //                 // 如果获取失败，可能是还在处理中，继续轮询
+    //                 console.log('正在等待视频合成完成...');
+    //             }
+    //         });
+    //     }, 3000); // 每3秒检查一次
+    // }
 
     // 页面加载时初始化
     loadBooklists();

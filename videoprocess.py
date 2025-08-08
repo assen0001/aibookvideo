@@ -1,7 +1,7 @@
 from moviepy import *
 import os
 
-def process_videos(video_urls, texts, time_data, book_id, audio_url):
+def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id, audio_url):
     """
     视频合成函数
     
@@ -11,9 +11,11 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
     time_data: 字幕时间数据数组，包含start_time和duration
     book_id: 书单ID
     audio_url: 音频文件URL
+    title_txt: 标题
+    author_txt: 作者
     
     返回:
-    无
+    output_filename：生成后的路径+文件名
     """
     
     # 加载所有视频片段
@@ -25,9 +27,42 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
     final_clip = concatenate_videoclips(clips)
 
     # 添加标题和作者
-    title_txt = "《望庐山瀑布》"
-    author_txt = "唐 · 李白"
+    # title_txt = "《望庐山瀑布》"
+    # author_txt = "唐 · 李白"
 
+    # 创建标题文本片段
+    title_clip = TextClip(
+        text=title_txt,
+        font="static/font/Alibaba-PuHuiTi-Bold.ttf",
+        font_size=34, 
+        size=(350,300),
+        color='#000000',
+        stroke_color='#ffffff',
+        stroke_width=2,
+        text_align='center',
+        method='caption'
+    )
+    title_clip = (title_clip
+                  .with_position(('center', 'top'))  # 水平居中，靠上部
+                  .with_start(0.6)  # 开始时间600ms
+                  .with_duration(2.2))  # 显示时长1200ms
+
+    # 创建作者文本片段
+    author_clip = TextClip(
+        text=author_txt,
+        font="static/font/Alibaba-PuHuiTi-Bold.ttf",
+        font_size=28, 
+        size=(350,400),
+        color='#000000',
+        stroke_color='#ffffff',
+        stroke_width=2,
+        text_align='center',
+        method='caption'
+    )
+    author_clip = (author_clip
+                   .with_position(('center', 'top'))  # 水平居中，靠上部，显示在标题下方
+                   .with_start(0.8)  # 开始时间800ms
+                   .with_duration(2.0))  # 显示时长1000ms
 
     # 添加字幕
     subtitle_clips = []
@@ -56,8 +91,8 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
         
         subtitle_clips.append(txt_clip)
     
-    # 组合视频和字幕
-    video_with_text = CompositeVideoClip([final_clip] + subtitle_clips)
+    # 组合视频和所有文本元素
+    video_with_text = CompositeVideoClip([final_clip, title_clip, author_clip] + subtitle_clips)
     
     # 添加音频
     audio_clip = AudioFileClip(audio_url)
@@ -87,7 +122,7 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
 # from videoprocess import process_videos
 
 # # 调用示例：
-# merge_url = process_videos(
+# get_merge_url = process_videos(
 #     video_urls=["url1", "url2", "url3"],
 #     texts=["字幕1", "字幕2", "字幕3"],
 #     time_data=[{"start_time": 1000, "duration": 2000}, ...],
@@ -100,11 +135,11 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
 
 # 调用示例：
 # process_videos(
-    video_urls=[
-        "http://47.98.194.143:9008/view?filename=ComfyUI_05765_.mp4",
-        "http://47.98.194.143:9008/view?filename=ComfyUI_05769_.mp4", 
-        "http://47.98.194.143:9008/view?filename=ComfyUI_05771_.mp4"
-    ],
+#     video_urls=[
+#         "http://47.98.194.143:9008/view?filename=ComfyUI_05765_.mp4",
+#         "http://47.98.194.143:9008/view?filename=ComfyUI_05769_.mp4", 
+#         "http://47.98.194.143:9008/view?filename=ComfyUI_05771_.mp4"
+#     ],
 #     texts=[
 #     "《冯唐成事心法》是麦肯锡前咨询顾问、作家冯唐推出的职场生存指南",
 #     "作为兼具医生、诗人、商业顾问多重身份的斜杠大叔，冯唐这次把曾国藩的处世哲学和现代管理学进行了魔幻混搭，堪称职场打工人自救手册",
@@ -118,5 +153,5 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
 #         {"start_time": 29511, "duration": 5473}
 #     ],
 #     book_id="12345",
-#     audio_url="http://127.0.0.1:50001/static/output/merged_book_43.wav"
+#     audio_url="http://127.0.0.1:5001/static/output/merged_book_43.wav"
 # )

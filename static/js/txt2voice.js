@@ -97,19 +97,27 @@ $(document).ready(function() {
 
             // 禁用按钮并显示"转换中..."文字
             const $submitBtn = $(this);
-            const originalText = $submitBtn.text();
-            $submitBtn.prop('disabled', true).text('转换中...').addClass('disabled');
+            $submitBtn.prop('disabled', true).text('语音转换中...').addClass('disabled');
             
-            // 构造请求URL
-            const url = COQUI_URL + "/create/" + bookId;
-            
-            // 发送GET请求
-            $.get(url, function(response) {
-                // console.log('已提交字幕转语音操作，请关注后台进度:', response);
-                // alert('已提交字幕转语音操作，请关注后台进度!');
-            })
+            // 发送请求
+            $.ajax({
+                url: COQUI_URL + "/create/" + bookId,
+                type: 'GET',
+                success: function() {
+                    // 合成请求已发送，开始轮询检查结果
+                    location.reload(); // 刷新页面;
+                },
+                error: function(xhr, status, error) {
+                    // console.error('合成请求失败:', error);
+                    // alert('合成请求失败，请重试');
+                    // $submitBtn.prop('disabled', false);
+                    // $submitBtn.text('字幕转换成语音');
+                    location.reload(); // 刷新页面
+                }
+            });
         }
     });
+
 
     // 加载书单数据
     loadBooklists();
@@ -150,14 +158,14 @@ $(document).ready(function() {
                             </div>
                         `;
                         voiceList.append(audioElement);
-                    });
+                    });                              
                 } else {
                     $('#voiceListContainer').hide();
                 }
             },
             error: function() {
                 console.error('加载语音列表失败');
-            }
+            }            
         });
     }
 

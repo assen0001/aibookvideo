@@ -94,15 +94,20 @@ def create_video():
         
         # 查询语音文件
         cursor.execute("""
-            SELECT voice_url FROM ai_voicemerge 
-            WHERE book_id = %s AND voice_status = 1 LIMIT 1
+            SELECT a.book_name, a.book_author, b.voice_url 
+            FROM ai_booklist a LEFT JOIN ai_voicemerge b on a.id = b.book_id
+            WHERE a.id = %s and b.voice_status = 1
         """, (data['book_id'],))
         voice_row = cursor._rows
         audio_url = f"http://192.168.1.101:5001/{voice_row[0]['voice_url']}"
+        title_txt = voice_row[0]['book_name']
+        author_txt = voice_row[0]['book_author']
         
         # 调用视频合成函数
         merge_url = process_videos(
-            video_urls=video_urls,
+            video_urls=video_urls, 
+            title_txt=title_txt,
+            author_txt=author_txt, 
             texts=texts,
             time_data=time_data,
             book_id=data['book_id'],
@@ -126,3 +131,5 @@ def create_video():
     finally:
         cursor.close()
         conn.close()
+
+    
