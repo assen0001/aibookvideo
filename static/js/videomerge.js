@@ -54,9 +54,25 @@ $(document).ready(function() {
 
     // 视频合成按钮点击事件
     $('#mergeBtn').click(function() {
-        if (confirm('是否提交视频合成？')) {
-            // 这里添加视频合成提交逻辑
-            alert('视频合成已提交');
+        const bookId = $('#bookSelect').val();
+        if (!bookId) {
+            alert('请先选择书单');
+            return;
+        }
+
+        if (confirm('确定要合成视频吗？')) {
+            const $btn = $(this);
+            $btn.prop('disabled', true);
+            $btn.text('视频合成中...');
+
+            $.ajax({
+                url: '/create_video',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    book_id: bookId
+                })
+            });
         }
     });
 
@@ -104,7 +120,7 @@ $(document).ready(function() {
                         const videoElement = `
                             <div class="mb-4 d-flex">
                                 <video width="460" height="613" controls style="background:#000">
-                                    <source src="/static/uploads/videomerge/${video.videomerge_url}" type="video/mp4">
+                                    <source src="/${video.videomerge_url}" type="video/mp4">
                                     您的浏览器不支持视频播放
                                 </video>
                                 <div class="ms-4">
@@ -159,7 +175,7 @@ $(document).ready(function() {
     // 下载视频
     window.downloadVideo = function(videoId, filename) {
         const link = document.createElement('a');
-        link.href = `/static/uploads/videomerge/${filename}`;
+        link.href = `/${filename}`;
         link.download = filename;
         document.body.appendChild(link);
         link.click();

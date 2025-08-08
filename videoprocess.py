@@ -17,10 +17,17 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
     """
     
     # 加载所有视频片段
-    clips = [VideoFileClip(vf) for vf in video_urls]
-    
+    clips = []
+    for vf in video_urls:
+        clips.append(VideoFileClip(vf))
+        
     # 合并视频
     final_clip = concatenate_videoclips(clips)
+
+    # 添加标题和作者
+    title_txt = "《望庐山瀑布》"
+    author_txt = "唐 · 李白"
+
 
     # 添加字幕
     subtitle_clips = []
@@ -68,7 +75,7 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
     output_filename = f"{output_dir}/video_{book_id}.mp4"
     final_video.write_videofile(output_filename, codec='libx264')
     
-    # print(f"视频合成完成，保存路径: {output_filename}")
+    print(f"视频合成完成，保存路径: {output_filename}")
     return output_filename
 
 # # 示例调用（仅在直接运行此文件时执行）
@@ -93,11 +100,11 @@ def process_videos(video_urls, texts, time_data, book_id, audio_url):
 
 # 调用示例：
 # process_videos(
-#     video_urls=[
-#         "http://47.98.194.143:9008/view?filename=ComfyUI_05765_.mp4",
-#         "http://47.98.194.143:9008/view?filename=ComfyUI_05769_.mp4", 
-#         "http://47.98.194.143:9008/view?filename=ComfyUI_05771_.mp4"
-#     ],
+    video_urls=[
+        "http://47.98.194.143:9008/view?filename=ComfyUI_05765_.mp4",
+        "http://47.98.194.143:9008/view?filename=ComfyUI_05769_.mp4", 
+        "http://47.98.194.143:9008/view?filename=ComfyUI_05771_.mp4"
+    ],
 #     texts=[
 #     "《冯唐成事心法》是麦肯锡前咨询顾问、作家冯唐推出的职场生存指南",
 #     "作为兼具医生、诗人、商业顾问多重身份的斜杠大叔，冯唐这次把曾国藩的处世哲学和现代管理学进行了魔幻混搭，堪称职场打工人自救手册",

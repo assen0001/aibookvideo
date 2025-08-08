@@ -106,11 +106,8 @@ $(document).ready(function() {
             // 发送GET请求
             $.get(url, function(response) {
                 // console.log('已提交字幕转语音操作，请关注后台进度:', response);
-                alert('已提交字幕转语音操作，请关注后台进度!');
-            }).fail(function(xhr, status, error) {
-                // console.error('字幕转语音失败:', error);
-                alert('字幕转语音失败：' + error);
-            });
+                // alert('已提交字幕转语音操作，请关注后台进度!');
+            })
         }
     });
 

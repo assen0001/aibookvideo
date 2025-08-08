@@ -54,3 +54,75 @@ def delete_video():
     finally:
         cursor.close()
         conn.close()
+
+@videomerge_bp.route('/create_video', methods=['POST'])
+def create_video():
+    data = request.get_json()
+    if not data or 'book_id' not in data:
+        return jsonify({'error': 'book_id参数缺失'}), 400
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # 查询分镜视频
+        cursor.execute("""
+            SELECT video_url FROM ai_videolist WHERE book_id = %s and video_status = 1
+        """, (data['book_id'],))
+        video_rows = cursor.fetchall()
+        video_urls = []
+        for row in video_rows:
+            if row and len(row) > 0:
+                video_urls.append(f"http://47.98.194.143:9008/view?filename={row['video_url']}")
+        
+        # 查询字幕
+        cursor.execute("""
+            SELECT paragraph_initial FROM ai_imageslist WHERE book_id = %s
+        """, (data['book_id'],))
+        texts = []
+        for row in cursor._rows:
+            if row and len(row) > 0:
+                texts.append(row['paragraph_initial'])
+        
+        # 查询字幕元数据
+        cursor.execute("""
+            SELECT start_time, duration FROM ai_voicelist WHERE book_id = %s
+        """, (data['book_id'],))
+        time_data = []
+        for row in cursor._rows:
+            if row and len(row) > 1:
+                time_data.append({"start_time": row['start_time'], "duration": row['duration']})
+        
+        # 查询语音文件
+        cursor.execute("""
+            SELECT voice_url FROM ai_voicemerge 
+            WHERE book_id = %s AND voice_status = 1 LIMIT 1
+        """, (data['book_id'],))
+        voice_row = cursor._rows
+        audio_url = f"http://192.168.1.101:5001/{voice_row[0]['voice_url']}"
+        
+        # 调用视频合成函数
+        merge_url = process_videos(
+            video_urls=video_urls,
+            texts=texts,
+            time_data=time_data,
+            book_id=data['book_id'],
+            audio_url=audio_url
+        )
+        
+        # 保存结果到数据库
+        cursor.execute("""
+            INSERT INTO ai_videomerge (book_id, videomerge_url)
+            VALUES (%s, %s)
+        """, (data['book_id'], merge_url))
+        conn.commit()
+        
+        return jsonify({'success': True})
+    except Exception as e:
+        conn.rollback()
+        print(f"Error creating video: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': f"视频合成失败: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
