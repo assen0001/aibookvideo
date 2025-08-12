@@ -34,10 +34,10 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     title_clip = TextClip(
         text=title_txt,
         font="static/font/Alibaba-PuHuiTi-Bold.ttf",
-        font_size=38, 
+        font_size=42, 
         size=(380,300),
-        color='#000000',
-        stroke_color='#ffffff',
+        color='#FFB600',
+        stroke_color='#000000',
         stroke_width=2,
         text_align='center',
         method='caption'
@@ -51,10 +51,10 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     author_clip = TextClip(
         text=author_txt,
         font="static/font/Alibaba-PuHuiTi-Bold.ttf",
-        font_size=28, 
-        size=(300,400),
-        color='#000000',
-        stroke_color='#ffffff',
+        font_size=30, 
+        size=(300,450),
+        color='#FFB600',
+        stroke_color='#000000',
         stroke_width=2,
         text_align='center',
         method='caption'
@@ -73,11 +73,11 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
         
         txt_clip = TextClip(
             text=text,
-            font="static/font/Alibaba-PuHuiTi-Bold.ttf",
-            font_size=20, 
+            font="static/font/Alibaba-PuHuiTi-Medium.ttf",
+            font_size=21, 
             size=(420,150),
-            color='#000000',
-            stroke_color='#ffffff',
+            color='#FFB600',
+            stroke_color='#000000',
             stroke_width=2,
             text_align='center',
             method='caption'
@@ -113,10 +113,6 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     print(f"视频合成完成，保存路径: {output_filename}")
     return output_filename
 
-# # 示例调用（仅在直接运行此文件时执行）
-# if __name__ == "__main__":
-#     # 这里可以添加测试代码
-#     pass
 
 
 # from videoprocess import process_videos
@@ -134,24 +130,22 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
 
 
 # 调用示例：
-# process_videos(
-#     video_urls=[
-#         "http://47.98.194.143:9008/view?filename=ComfyUI_05765_.mp4",
-#         "http://47.98.194.143:9008/view?filename=ComfyUI_05769_.mp4", 
-#         "http://47.98.194.143:9008/view?filename=ComfyUI_05771_.mp4"
-#     ],
-#     texts=[
-#     "《冯唐成事心法》是麦肯锡前咨询顾问、作家冯唐推出的职场生存指南",
-#     "作为兼具医生、诗人、商业顾问多重身份的斜杠大叔，冯唐这次把曾国藩的处世哲学和现代管理学进行了魔幻混搭，堪称职场打工人自救手册",
-#     "全书以知己、知人、知世、知智慧四重境界为框架，像拆解芯片一样剖析了职场进阶的底层逻辑",
-#     "最让人眼前一亮的是他提炼的87个方法论"
-#     ],
-#     time_data=[
-#         {"start_time": 400, "duration": 6913},
-#         {"start_time": 7712, "duration": 11190},
-#         {"start_time": 19302, "duration": 10209},
-#         {"start_time": 29511, "duration": 5473}
-#     ],
-#     book_id="12345",
-#     audio_url="http://127.0.0.1:5001/static/output/merged_book_43.wav"
-# )
+process_videos(
+    video_urls=[
+        "http://47.98.194.143:9008/view?filename=ComfyUI_05765_.mp4",
+        "http://47.98.194.143:9008/view?filename=ComfyUI_05769_.mp4"
+    ],
+    texts=[
+    "《冯唐成事心法》是麦肯锡前咨询顾问、作家冯唐推出的职场生存指南",
+    "作为兼具医生、诗人、商业顾问多重身份的斜杠大叔"
+    ],
+    time_data=[
+        {"start_time": 400, "duration": 6913},
+        {"start_time": 7712, "duration": 8190}
+    ],
+    book_id="12345",
+    audio_url="http://127.0.0.1:5001/static/output/voice_52_1309.wav",
+    title_txt="《望庐山瀑布》",
+    author_txt="唐 · 李白"
+)
+

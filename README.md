@@ -8,7 +8,7 @@
  3. 大语言模型：Ollama+DeepSeek
  4. ComfyUI+Flux生图模型
  5. 通义万相wan2.1视频模型
- 6. OpenVoice语音合成
+ 6. Coqui-TTS语音合成
 - 平台优势
  1. 本地化部署
   - 全部采用本地化部署，无需调用外部API，无额外成本
@@ -48,7 +48,7 @@ pip install -r requirements.txt
 4. 配置环境
    - 本地部署Ollama + DeepSeek，并在config.json中配置调用API地址
    - 本地部署ComfyUI + Flux + Wan2.1，并在config.json中配置调用API地址
-   - 本地部署OpenVoice，并在config.json中配置调用API地址
+   - 本地部署Coqui-TTS，并在config.json中配置调用API地址
    - 修改config.json中数据库配置信息
 
 ## 使用说明
