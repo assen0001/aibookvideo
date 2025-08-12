@@ -89,6 +89,7 @@ $(document).ready(function() {
             const bookId = $('#bookSelect').val();
             const voiceType = $('input[name="voiceType"]:checked').val();
             const subtitleContent = $('#subtitleContent').val();
+            const speed = $('#speedSlider').val();
             
             if (!bookId || !subtitleContent) {
                 alert('请先选择书单并加载字幕内容');
@@ -101,8 +102,14 @@ $(document).ready(function() {
             
             // 发送请求
             $.ajax({
-                url: COQUI_URL + "/create/" + bookId,
-                type: 'GET',
+                url: COQUI_URL + "/create",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    book_id: bookId,
+                    speaker_wav: voiceType,
+                    speed: speed
+                }),
                 success: function() {
                     // 合成请求已发送，开始轮询检查结果
                     location.reload(); // 刷新页面;
@@ -121,6 +128,12 @@ $(document).ready(function() {
 
     // 加载书单数据
     loadBooklists();
+
+    // 语速控制滑块联动
+    $('#speedSlider').on('input', function() {
+        const speedValue = $(this).val();
+        $('#speedValue').text(speedValue);
+    });
 
     // 加载语音列表
     function loadVoiceList(bookId) {

@@ -21,7 +21,7 @@
             <div class="form-group row mt-3">
                 <label class="col-sm-2 col-form-label">字幕内容：</label>
                 <div class="col-sm-10">
-                    <textarea id="subtitleContent" class="form-control" rows="15" style="width:880px" readonly ></textarea>
+                    <textarea id="subtitleContent" class="form-control" rows="12" style="width:880px" readonly ></textarea>
                 </div>
             </div>
 
@@ -29,27 +29,47 @@
                 <label class="col-sm-2 col-form-label">选择音色：</label>
                 <div class="col-sm-10">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="voiceType" id="voice1" value="阿泽-通用男声" checked>
-                        <label class="form-check-label" for="voice1">阿泽-通用男声</label>
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice1" value="AndyLau_ldh" checked>
+                        <label class="form-check-label" for="voice1">男声：阿泽</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="voiceType" id="voice2" value="潇潇-通用女声">
-                        <label class="form-check-label" for="voice2">潇潇-通用女声</label>
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice2" value="JackMa_mayun">
+                        <label class="form-check-label" for="voice2">男声：阿伟</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="voiceType" id="voice3" value="阿飞-播音男声">
-                        <label class="form-check-label" for="voice3">阿飞-播音男声</label>
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice3" value="LiJing_lj">
+                        <label class="form-check-label" for="voice3">男声：阿飞</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="voiceType" id="voice4" value="文君-播音女声">
-                        <label class="form-check-label" for="voice4">文君-播音女声</label>
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice4" value="RichardYu_ycd">
+                        <label class="form-check-label" for="voice4">女声：文君</label>
                     </div>
                     <div class="form-check form-check-inline" style="width: 160px;">
-                        <input class="form-check-input" type="radio" name="voiceType" id="voice5" value="阿伟-短视频男声">
-                        <label class="form-check-label" for="voice5">阿伟-短视频男声</label>
+                        <input class="form-check-input" type="radio" name="voiceType" id="voice5" value="YangLan_yl">
+                        <label class="form-check-label" for="voice5">女声：莉莉</label>
                     </div>
                 </div>
             </div>
+
+            <!-- 语速控制滑块 -->
+            <div class="form-group row mt-3">
+                <label class="col-sm-2 col-form-label">语速控制：</label>
+                <div class="col-sm-10"  style="width: 880px; ">
+                    <input type="range" id="speedSlider" name="speed" min="0.5" max="2" step="0.1" value="1.1" class="form-range">
+                    <div class="row mt-2">
+                        <div class="col-sm-2">
+                            <span class="badge bg-secondary">慢速</span>
+                        </div>
+                        <div class="col-sm-8 text-center">
+                            <span id="speedValue" class="badge bg-primary">1.1</span>
+                        </div>
+                        <div class="col-sm-2 text-end">
+                            <span class="badge bg-secondary">快速</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="form-group row mt-4">
                 <div class="col-sm-10 offset-sm-2">
