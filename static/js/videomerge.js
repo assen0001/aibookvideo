@@ -185,7 +185,7 @@ $(document).ready(function() {
     window.deleteVideo = function(videoId) {
         if (confirm('确定要删除这个视频吗？')) {
             $.ajax({
-                url: '/delete_video',
+                url: '/delete_videomerge',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({

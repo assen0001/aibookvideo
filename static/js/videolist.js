@@ -75,7 +75,7 @@ $(document).ready(function() {
                 }).join('');
 
                 const row = `
-                    <tr>
+                    <tr data-video-id="${video.video_id}">
                         <td>${video.image_id}</td>
                         <td>${video.paragraph_initial || ''}</td>
                         <td>
@@ -83,7 +83,7 @@ $(document).ready(function() {
                                 ${videoCells}
                             </div>
                             <div class="d-flex flex-wrap gap-2">
-                                ${renderStatusCheckboxes(videoUrls, videoStatuses)}
+                                ${renderStatusCheckboxes(videoUrls, videoStatuses, video.video_id)}
                             </div>                            
                         </td>
                     </tr>
@@ -93,6 +93,11 @@ $(document).ready(function() {
 
             // 绑定状态checkbox事件
             $('.video-status-checkbox').change(updateVideoStatus);
+            // 绑定删除按钮事件
+            $(document).on('click', '.delete-btn', function() {
+                const videoId = $(this).data('video-id');
+                deleteVideo(videoId);
+            });
         });
     }
 
@@ -158,7 +163,7 @@ $(document).ready(function() {
     }
 
     // 渲染状态checkbox
-    function renderStatusCheckboxes(urls, statuses) {
+    function renderStatusCheckboxes(urls, statuses, videoId) {
         return urls.map((url, index) => {
             const status = index < statuses.length ? statuses[index] : '0';
             return `
@@ -168,6 +173,11 @@ $(document).ready(function() {
                            data-url="${url}"
                            ${status === '1' ? 'checked' : ''}>
                 </div>
+                <button class="btn btn-danger btn-sm delete-btn" 
+                        data-video-id="${videoId}" 
+                        data-url="${url}">
+                    删除
+                </button>
             `;
         }).join('');
     }
@@ -190,6 +200,32 @@ $(document).ready(function() {
                 console.log('视频状态更新成功');
             }
         });
+    }
+
+    // 删除视频
+    function deleteVideo(videoId) {
+        if (confirm('确定要删除这条记录吗？')) {
+            $.ajax({
+                url: '/delete_video',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: videoId
+                }),
+                success: function() {
+                    console.log('视频删除成功');
+                    // 删除成功后刷新列表
+                    const bookId = $('#bookSelect').val();
+                    if (bookId) {
+                        loadVideos(bookId);
+                    }
+                },
+                error: function() {
+                    console.error('删除失败');
+                    alert('删除失败');
+                }
+            });
+        }
     }
 
     // 页面加载时初始化

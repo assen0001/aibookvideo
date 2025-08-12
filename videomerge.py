@@ -32,12 +32,12 @@ def get_video_list():
         cursor.close()
         conn.close()
 
-@videomerge_bp.route('/delete_video', methods=['POST'])
-def delete_video():
+@videomerge_bp.route('/delete_videomerge', methods=['POST'])
+def delete_videomerge():
     data = request.get_json()
     if not data or 'video_id' not in data:
         return jsonify({'error': 'video_id参数缺失'}), 400
-    
+
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
@@ -131,5 +131,3 @@ def create_video():
     finally:
         cursor.close()
         conn.close()
-
-    

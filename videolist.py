@@ -19,6 +19,7 @@ def get_videos(book_id):
             sql = """
                 SELECT
                     i.id AS image_id,
+                    v.id as video_id,
                     i.paragraph_initial,
                     GROUP_CONCAT(v.video_url ORDER BY v.id SEPARATOR ',') AS video_urls,
                     GROUP_CONCAT(v.video_status ORDER BY v.id SEPARATOR ',') AS video_statuses
@@ -61,5 +62,59 @@ def update_video_status():
             cursor.execute(sql, (data['value'], data['video_url']))
             connection.commit()
             return jsonify({'status': 'success'})
+    finally:
+        connection.close()
+
+@videolist_bp.route('/delete_video', methods=['POST'])
+def delete_video():
+    data = request.json
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            # 先查询 images_url
+            select_sql = "SELECT images_url FROM ai_videolist WHERE id = %s"
+            cursor.execute(select_sql, (data['id'],))
+            result = cursor.fetchone()
+            
+            if result:
+                images_url = result['images_url']
+                
+                # 删除记录
+                delete_sql = "DELETE FROM ai_videolist WHERE id = %s"
+                cursor.execute(delete_sql, (data['id'],))
+                
+                # 更新 ai_imageslist 表
+                update_sql = """
+                    UPDATE `ai_imageslist`
+                    SET
+                        `images_status_01` = CASE 
+                            WHEN `images_url_01` = %s THEN 1 
+                            ELSE `images_status_01` 
+                        END,
+                        `images_status_02` = CASE 
+                            WHEN `images_url_02` = %s THEN 1 
+                            ELSE `images_status_02` 
+                        END,
+                        `images_status_03` = CASE 
+                            WHEN `images_url_03` = %s THEN 1 
+                            ELSE `images_status_03` 
+                        END,
+                        `images_status_04` = CASE 
+                            WHEN `images_url_04` = %s THEN 1 
+                            ELSE `images_status_04` 
+                        END
+                    WHERE 
+                        `images_url_01` = %s 
+                        OR `images_url_02` = %s 
+                        OR `images_url_03` = %s 
+                        OR `images_url_04` = %s
+                """
+                cursor.execute(update_sql, (images_url, images_url, images_url, images_url, images_url, images_url, images_url, images_url))
+            
+            connection.commit()
+            return jsonify({'status': 'success'})
+    except Exception as e:
+        connection.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
     finally:
         connection.close()
