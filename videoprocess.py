@@ -26,43 +26,58 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     # 合并视频
     final_clip = concatenate_videoclips(clips)
 
-    # 添加标题和作者
-    # title_txt = "《望庐山瀑布》"
-    # author_txt = "唐 · 李白"
-
-    # 创建标题文本片段
+    # 创建标题文本片段（带滑入动画）
     title_clip = TextClip(
         text=title_txt,
         font="static/font/Alibaba-PuHuiTi-Bold.ttf",
         font_size=42, 
         size=(380,300),
         color='#FFB600',
+        # bg_color='red',
         stroke_color='#000000',
         stroke_width=2,
         text_align='center',
         method='caption'
     )
+    
+    # 定义标题滑入动画函数
+    def title_position(t):
+        # 动画持续时间（秒）
+        anim_duration = 0.3
+        
+        if t < anim_duration:
+            # 从底部开始向上滑动
+            start_y = 50  # 初始位置（方框底部）
+            end_y = 0      # 结束位置（方框顶部）
+            progress = t / anim_duration  # 动画进度（0到1）
+            current_y = start_y - (start_y - end_y) * progress
+            return ('center', current_y)
+        else:
+            # 动画结束后保持在顶部位置
+            return ('center', 0)
+    
     title_clip = (title_clip
-                  .with_position(('center', 'top'))  # 水平居中，靠上部
+                  .with_position(title_position)  # 应用动画函数
                   .with_start(0.6)  # 开始时间600ms
-                  .with_duration(2.2))  # 显示时长1200ms
+                  .with_duration(2.2))  # 显示时长2.2秒
 
     # 创建作者文本片段
     author_clip = TextClip(
         text=author_txt,
         font="static/font/Alibaba-PuHuiTi-Bold.ttf",
         font_size=30, 
-        size=(300,450),
+        size=(300,450),  
         color='#FFB600',
+        # bg_color='#eeeeee',
         stroke_color='#000000',
         stroke_width=2,
         text_align='center',
         method='caption'
     )
     author_clip = (author_clip
-                   .with_position(('center', 'top'))  # 水平居中，靠上部，显示在标题下方
+                   .with_position(title_position)  # 应用动画函数
                    .with_start(0.8)  # 开始时间800ms
-                   .with_duration(2.0))  # 显示时长1000ms
+                   .with_duration(2.0))  # 显示时长2.0秒
 
     # 添加字幕
     subtitle_clips = []
@@ -75,7 +90,7 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
             text=text,
             font="static/font/Alibaba-PuHuiTi-Medium.ttf",
             font_size=21, 
-            size=(420,150),
+            size=(420,160),
             color='#FFB600',
             stroke_color='#000000',
             stroke_width=2,
@@ -130,22 +145,22 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
 
 
 # 调用示例：
-process_videos(
-    video_urls=[
-        "http://47.98.194.143:9008/view?filename=ComfyUI_05765_.mp4",
-        "http://47.98.194.143:9008/view?filename=ComfyUI_05769_.mp4"
-    ],
-    texts=[
-    "《冯唐成事心法》是麦肯锡前咨询顾问、作家冯唐推出的职场生存指南",
-    "作为兼具医生、诗人、商业顾问多重身份的斜杠大叔"
-    ],
-    time_data=[
-        {"start_time": 400, "duration": 6913},
-        {"start_time": 7712, "duration": 8190}
-    ],
-    book_id="12345",
-    audio_url="http://127.0.0.1:5001/static/output/voice_52_1309.wav",
-    title_txt="《望庐山瀑布》",
-    author_txt="唐 · 李白"
-)
+# process_videos(
+#     video_urls=[
+#         "http://47.98.194.143:9008/view?filename=ComfyUI_05765_.mp4",
+#         "http://47.98.194.143:9008/view?filename=ComfyUI_05769_.mp4"
+#     ],
+#     texts=[
+#     "《冯唐成事心法》是麦肯锡前咨询顾问、作家冯唐推出的职场生存指南",
+#     "作为兼具医生、诗人、商业顾问多重身份的斜杠大叔"
+#     ],
+#     time_data=[
+#         {"start_time": 400, "duration": 6913},
+#         {"start_time": 7712, "duration": 8190}
+#     ],
+#     book_id="12345",
+#     audio_url="http://127.0.0.1:5001/static/output/voice_52_1309.wav",
+#     title_txt="《望庐山瀑布》",
+#     author_txt="唐 · 李白"
+# )
 
