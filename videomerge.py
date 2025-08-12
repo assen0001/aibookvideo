@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template
-from common import get_db_connection
+from common import get_db_connection, db_config
 from videoprocess import process_videos
 
 videomerge_bp = Blueprint('videomerge', __name__)
@@ -72,7 +72,7 @@ def create_video():
         video_urls = []
         for row in video_rows:
             if row and len(row) > 0:
-                video_urls.append(f"http://47.98.194.143:9008/view?filename={row['video_url']}")
+                video_urls.append(f"{db_config['COMFYUI_URL']}/view?filename={row['video_url']}")
         
         # 查询字幕
         cursor.execute("""
@@ -99,7 +99,7 @@ def create_video():
             WHERE a.id = %s and b.voice_status = 1
         """, (data['book_id'],))
         voice_row = cursor._rows
-        audio_url = f"http://192.168.1.101:5001/{voice_row[0]['voice_url']}"
+        audio_url = f"{db_config['COQUITTS_URL']}/{voice_row[0]['voice_url']}"
         title_txt = voice_row[0]['book_name']
         author_txt = voice_row[0]['book_author']
         
