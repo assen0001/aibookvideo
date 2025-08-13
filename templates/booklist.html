@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container-fluid mt-3">   
-    <!-- 查询表单 -->
+    <!-- 查询表单 0-待生成文案，1-已生成文案，2-已生成字幕，3-已生成语音，4-已生成图片，5-已图生视频 ，6-已完成-->
     <div class="row mb-3">
         <div class="col-md-12">
             <form id="searchForm" class="row g-3">
@@ -19,9 +19,11 @@
                         <option value="">全部状态</option>
                         <option value="0">待生成方案</option>
                         <option value="1">已生成文案</option>
-                        <option value="2">已生成图片</option>
-                        <option value="3">已图生视频</option>
-                        <option value="4">已完成</option>
+                        <option value="2">已生成字幕</option>
+                        <option value="3">已生成语音</option>
+                        <option value="4">已生成图片</option>
+                        <option value="5">已图生视频</option>
+                        <option value="6">已完成</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -209,9 +211,12 @@
                         <select class="form-select" id="modalBookStatus" required>
                             <option value="0">待生成方案</option>
                             <option value="1">已生成文案</option>
-                            <option value="2">已生成图片</option>
-                            <option value="3">已图生视频</option>
-                            <option value="4">已制定完成</option>
+                            <option value="2">已生成字幕</option>
+                            <option value="3">已生成语音</option>
+                            <option value="4">已生成图片</option>
+                            <option value="5">已图生视频</option>
+                            <option value="6">已完成</option>
+
                         </select>
                     </div>
                 </form>
