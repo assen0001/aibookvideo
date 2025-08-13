@@ -167,17 +167,16 @@ $(document).ready(function() {
         return urls.map((url, index) => {
             const status = index < statuses.length ? statuses[index] : '0';
             return `
-                是否选中：<div class="form-check">
+                <div class="form-statustitle">是否选中：
                     <input class="form-check-input video-status-checkbox" 
                            type="checkbox" 
                            data-url="${url}"
                            ${status === '1' ? 'checked' : ''}>
-                </div>
-                <button class="btn btn-danger btn-sm delete-btn" 
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-danger btn-sm delete-btn" 
                         data-video-id="${videoId}" 
-                        data-url="${url}">
-                    删除
-                </button>
+                        data-url="${url}">删除</button>
+                </div>
             `;
         }).join('');
     }

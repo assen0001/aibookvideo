@@ -86,3 +86,8 @@ body {
     width: 130px;
     text-align: center;
 }
+
+.form-statustitle {
+    width: 200px;
+    text-align: center;
+}
