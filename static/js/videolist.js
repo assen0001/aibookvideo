@@ -95,8 +95,8 @@ $(document).ready(function() {
             $('.video-status-checkbox').change(updateVideoStatus);
             // 绑定删除按钮事件
             $(document).on('click', '.delete-btn', function() {
-                const videoId = $(this).data('video-id');
-                deleteVideo(videoId);
+                const videoUrl = $(this).data('url');
+                deleteVideo(videoUrl);
             });
         });
     }
@@ -202,14 +202,14 @@ $(document).ready(function() {
     }
 
     // 删除视频
-    function deleteVideo(videoId) {
+    function deleteVideo(video_url) {
         if (confirm('确定要删除这条记录吗？')) {
             $.ajax({
                 url: '/delete_video',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    id: videoId
+                    url: video_url
                 }),
                 success: function() {
                     console.log('视频删除成功');

@@ -80,8 +80,8 @@ def delete_video():
                 images_url = result['images_url']
                 
                 # 删除记录
-                delete_sql = "DELETE FROM ai_videolist WHERE id = %s"
-                cursor.execute(delete_sql, (data['id'],))
+                delete_sql = "DELETE FROM ai_videolist WHERE video_url = %s"
+                cursor.execute(delete_sql, (data['url'],))
                 
                 # 更新 ai_imageslist 表
                 update_sql = """
