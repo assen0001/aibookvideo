@@ -72,8 +72,8 @@ def delete_video():
     try:
         with connection.cursor() as cursor:
             # 先查询 images_url
-            select_sql = "SELECT images_url FROM ai_videolist WHERE id = %s"
-            cursor.execute(select_sql, (data['id'],))
+            select_sql = "SELECT images_url FROM ai_videolist WHERE video_url = %s"
+            cursor.execute(select_sql, (data['url'],))
             result = cursor.fetchone()
             
             if result:

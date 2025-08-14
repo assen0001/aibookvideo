@@ -18,6 +18,15 @@
                 </div>
         <ul class="nav flex-column">
             <li class="nav-item">
+                <a class="nav-link {% if request.path == '/autorun' %}active{% endif %}" href="/autorun">一键生成视频</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == '/autorun_manage' %}active{% endif %}" href="/autorun_manage">已生成视频管理</a>
+            </li>
+            <li class="nav-item divider">
+                <hr style="margin: 10px 0; border: 0; border-top: 1px solid #dee2e6;">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {% if request.path == '/booklist' %}active{% endif %}" href="/booklist">1. 书单文案管理</a>
             </li>
             <li class="nav-item">
@@ -32,6 +41,8 @@
             <li class="nav-item">
                 <a class="nav-link {% if request.path == '/videomerge' %}active{% endif %}" href="/videomerge">5. 视频合成</a>
             </li>
+
+
         </ul>
             </div>
             
