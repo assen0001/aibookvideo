@@ -5,6 +5,7 @@ from imageslist import imageslist_bp
 from videolist import videolist_bp
 from txt2voice import txt2voice_bp
 from videomerge import videomerge_bp
+from autovideo import autovideo_bp
 
 app = Flask(__name__)
 
@@ -14,6 +15,7 @@ app.register_blueprint(imageslist_bp)
 app.register_blueprint(videolist_bp)
 app.register_blueprint(txt2voice_bp)
 app.register_blueprint(videomerge_bp)
+app.register_blueprint(autovideo_bp)
 
 @app.route('/')
 def index():
