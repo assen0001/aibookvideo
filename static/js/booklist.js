@@ -39,7 +39,7 @@ $(document).ready(function() {
                             <button class="btn btn-sm btn-danger btn-delete" data-id="${book.id}">删除</button>
                             <br>
                             <button class="btn btn-sm btn-success btn-create" data-id="${book.id}">生成文案</button>
-                            <button class="btn btn-sm btn-success btn-prompt" data-id="${book.id}">生成提示词</button>
+                            <button class="btn btn-sm btn-success btn-prompt" data-id="${book.id}">生成字幕</button>
                         </td>
                     </tr>
                 `;
