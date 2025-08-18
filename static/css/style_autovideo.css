@@ -72,7 +72,7 @@
 .section-title {
     font-size: 1.5rem;
     font-weight: 400;
-    color: #00d4ff;
+    color: #4e4e4e;
     margin: 0 0 0.5rem 0;
     display: flex;
     align-items: center;
@@ -95,7 +95,7 @@
 
 .card-title {
     font-size: 1.2rem;
-    color: #00d4ff;
+    color: #4e4e4e;
     margin: 0 0 1rem 0;
     font-weight: 500;
     text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
@@ -108,7 +108,7 @@
 
 .form-label {
     display: block;
-    color: #00d4ff;
+    color: #4e4e4e;
     font-weight: 600;
     margin-bottom: 0.5rem;
     display: flex;
@@ -288,7 +288,7 @@
 /* 提示区域 */
 .tips-title {
     font-size: 1.1rem;
-    color: #00d4ff;
+    color: #4e4e4e;
     margin: 0 0 1rem 0;
     display: flex;
     align-items: center;
@@ -313,7 +313,7 @@
     content: '▸';
     position: absolute;
     left: 0;
-    color: #00d4ff;
+    color: #4e4e4e;
 }
 
 /* 响应式设计 */
