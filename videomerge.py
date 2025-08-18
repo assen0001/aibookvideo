@@ -119,6 +119,11 @@ def create_video():
             INSERT INTO ai_videomerge (book_id, videomerge_url)
             VALUES (%s, %s)
         """, (data['book_id'], merge_url))
+
+        # 更新书单状态为已合并
+        cursor.execute("""
+            UPDATE ai_booklist SET book_status = 6 WHERE id = %s
+        """, (data['book_id'],))
         conn.commit()
         
         return jsonify({'success': True})

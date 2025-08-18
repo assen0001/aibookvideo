@@ -1,4 +1,5 @@
 from moviepy import *
+from datetime import datetime
 import os
 
 def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id, audio_url):
@@ -122,7 +123,9 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     os.makedirs(output_dir, exist_ok=True)
     
     # 输出处理后的视频
-    output_filename = f"{output_dir}/video_{book_id}.mp4"
+    now = datetime.now()
+    num = now.strftime("%H%M%S")
+    output_filename = f"{output_dir}/video_{book_id}_{num}.mp4"
     final_video.write_videofile(output_filename, codec='libx264')
     
     print(f"视频合成完成，保存路径: {output_filename}")
