@@ -1,169 +1,209 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h2>一键生成视频</h2>
-            <p>填写书单信息，点击按钮即可生成视频</p>
-            
-            <!-- 书单信息模态框 -->
-            <div class="modal fade" id="bookModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitle">填写书单信息</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="bookForm">
-                                <input type="hidden" id="bookId">
-                                <div class="mb-3">
-                                    <label for="modalBookName" class="form-label">书名</label>
-                                    <input type="text" class="form-control" id="modalBookName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="modalBookAuthor" class="form-label">作者</label>
-                                    <input type="text" class="form-control" id="modalBookAuthor" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="modalBookNote" class="form-label">简介</label>
-                                    <textarea class="form-control" id="modalBookNote" rows="3"></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="modalBookPrompt" class="form-label">补充性提示词</label>
-                                    <input type="text" class="form-control" id="modalBookPrompt">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="modalBookStyler" class="form-label">风格样式</label>
-                                    <select class="form-select" id="modalBookStyler">
-                                        <option value="">请选择样式</option>
-                                        <option value="base">base</option>
-                                        <option value="sai-3D模型">sai-3D模型</option>
-                                        <option value="sai-胶片摄影">sai-胶片摄影</option>
-                                        <option value="sai-动漫风格">sai-动漫风格</option>
-                                        <option value="sai-电影感">sai-电影感</option>
-                                        <option value="sai-漫画书">sai-漫画书</option>
-                                        <option value="sai-手工黏土">sai-手工黏土</option>
-                                        <option value="sai-数字艺术">sai-数字艺术</option>
-                                        <option value="sai-增强">sai-增强</option>
-                                        <option value="sai-奇幻艺术">sai-奇幻艺术</option>
-                                        <option value="sai-等距视角">sai-等距视角</option>
-                                        <option value="sai-线描">sai-线描</option>
-                                        <option value="sai-低多边形">sai-低多边形</option>
-                                        <option value="sai-霓虹朋克">sai-霓虹朋克</option>
-                                        <option value="sai-折纸">sai-折纸</option>
-                                        <option value="sai-摄影">sai-摄影</option>
-                                        <option value="sai-像素艺术">sai-像素艺术</option>
-                                        <option value="sai-纹理">sai-纹理</option>
-                                        <option value="ads-广告">ads-广告</option>
-                                        <option value="ads-汽车广告">ads-汽车广告</option>
-                                        <option value="ads-企业品牌">ads-企业品牌</option>
-                                        <option value="ads-时尚社论">ads-时尚社论</option>
-                                        <option value="ads-美食摄影">ads-美食摄影</option>
-                                        <option value="ads-高级美食摄影">ads-高级美食摄影</option>
-                                        <option value="ads-奢华产品">ads-奢华产品</option>
-                                        <option value="ads-房地产摄影">ads-房地产摄影</option>
-                                        <option value="ads-零售包装">ads-零售包装</option>
-                                        <option value="artstyle-抽象">artstyle-抽象</option>
-                                        <option value="artstyle-抽象表现主义">artstyle-抽象表现主义</option>
-                                        <option value="artstyle-装饰艺术">artstyle-装饰艺术</option>
-                                        <option value="artstyle-新艺术">artstyle-新艺术</option>
-                                        <option value="artstyle-构成主义">artstyle-构成主义</option>
-                                        <option value="artstyle-立体主义">artstyle-立体主义</option>
-                                        <option value="artstyle-表现主义">artstyle-表现主义</option>
-                                        <option value="artstyle-涂鸦">artstyle-涂鸦</option>
-                                        <option value="artstyle-超现实主义">artstyle-超现实主义</option>
-                                        <option value="artstyle-印象主义">artstyle-印象主义</option>
-                                        <option value="artstyle-点彩主义">artstyle-点彩主义</option>
-                                        <option value="artstyle-波普艺术">artstyle-波普艺术</option>
-                                        <option value="artstyle-迷幻艺术">artstyle-迷幻艺术</option>
-                                        <option value="artstyle-文艺复兴">artstyle-文艺复兴</option>
-                                        <option value="artstyle-蒸汽朋克">artstyle-蒸汽朋克</option>
-                                        <option value="artstyle-超现实主义">artstyle-超现实主义</option>
-                                        <option value="artstyle-字体艺术">artstyle-字体艺术</option>
-                                        <option value="artstyle-水彩画">artstyle-水彩画</option>
-                                        <option value="futuristic-生物机械">futuristic-生物机械</option>
-                                        <option value="futuristic-生物机械赛博朋克">futuristic-生物机械赛博朋克</option>
-                                        <option value="futuristic-赛博化">futuristic-赛博化</option>
-                                        <option value="futuristic-赛博机器人">futuristic-赛博机器人</option>
-                                        <option value="futuristic-赛博朋克都市">futuristic-赛博朋克都市</option>
-                                        <option value="futuristic-未来主义">futuristic-未来主义</option>
-                                        <option value="futuristic-复古赛博朋克">futuristic-复古赛博朋克</option>
-                                        <option value="futuristic-复古未来主义">futuristic-复古未来主义</option>
-                                        <option value="futuristic-科幻">futuristic-科幻</option>
-                                        <option value="futuristic-蒸汽波">futuristic-蒸汽波</option>
-                                        <option value="game-泡泡龙">game-泡泡龙</option>
-                                        <option value="game-赛博朋克游戏">game-赛博朋克游戏</option>
-                                        <option value="game-格斗游戏">game-格斗游戏</option>
-                                        <option value="game-GTA风格">game-GTA风格</option>
-                                        <option value="game-马里奥">game-马里奥</option>
-                                        <option value="game-我的世界">game-我的世界</option>
-                                        <option value="game-宝可梦">game-宝可梦</option>
-                                        <option value="game-复古街机">game-复古街机</option>
-                                        <option value="game-复古游戏">game-复古游戏</option>
-                                        <option value="game-奇幻RPG">game-奇幻RPG</option>
-                                        <option value="game-策略游戏">game-策略游戏</option>
-                                        <option value="game-街头霸王">game-街头霸王</option>
-                                        <option value="game-塞尔达传说">game-塞尔达传说</option>
-                                        <option value="misc-建筑">misc-建筑</option>
-                                        <option value="misc-迪斯科">misc-迪斯科</option>
-                                        <option value="misc-梦境">misc-梦境</option>
-                                        <option value="misc-反乌托邦">misc-反乌托邦</option>
-                                        <option value="misc-童话">misc-童话</option>
-                                        <option value="misc-哥特">misc-哥特</option>
-                                        <option value="misc-垃圾摇滚">misc-垃圾摇滚</option>
-                                        <option value="misc-恐怖">misc-恐怖</option>
-                                        <option value="misc-可爱风">misc-可爱风</option>
-                                        <option value="misc-克苏鲁">misc-克苏鲁</option>
-                                        <option value="misc-死亡美学">misc-死亡美学</option>
-                                        <option value="misc-漫画">misc-漫画</option>
-                                        <option value="misc-大都市">misc-大都市</option>
-                                        <option value="misc-极简主义">misc-极简主义</option>
-                                        <option value="misc-单色">misc-单色</option>
-                                        <option value="misc-航海">misc-航海</option>
-                                        <option value="misc-太空">misc-太空</option>
-                                        <option value="misc-彩色玻璃">misc-彩色玻璃</option>
-                                        <option value="misc-科技服饰">misc-科技服饰</option>
-                                        <option value="misc-部落风">misc-部落风</option>
-                                        <option value="misc-禅绕画">misc-禅绕画</option>
-                                        <option value="papercraft-拼贴">papercraft-拼贴</option>
-                                        <option value="papercraft-平面剪纸">papercraft-平面剪纸</option>
-                                        <option value="papercraft-立体折纸">papercraft-立体折纸</option>
-                                        <option value="papercraft-纸浆雕塑">papercraft-纸浆雕塑</option>
-                                        <option value="papercraft-衍纸艺术">papercraft-衍纸艺术</option>
-                                        <option value="papercraft-剪纸拼贴">papercraft-剪纸拼贴</option>
-                                        <option value="papercraft-立体剪纸盒">papercraft-立体剪纸盒</option>
-                                        <option value="papercraft-堆叠剪纸">papercraft-堆叠剪纸</option>
-                                        <option value="papercraft-厚层剪纸">papercraft-厚层剪纸</option>
-                                        <option value="photo-外星主题">photo-外星主题</option>
-                                        <option value="photo-黑色电影">photo-黑色电影</option>
-                                        <option value="photo-魅力摄影">photo-魅力摄影</option>
-                                        <option value="photo-HDR摄影">photo-HDR摄影</option>
-                                        <option value="photo-手机摄影">photo-手机摄影</option>
-                                        <option value="photo-长曝光">photo-长曝光</option>
-                                        <option value="photo-霓虹黑色">photo-霓虹黑色</option>
-                                        <option value="photo-剪影">photo-剪影</option>
-                                        <option value="photo-移轴摄影">photo-移轴摄影</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">                
-                            <button type="button" class="btn btn-primary" id="btnSave">一键生成视频</button>
-                        </div>
+<div class="video-generator-container">
+    <!-- 顶部标题区域 -->
+    <div class="header-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="page-title">
+                        <i class="fas fa-video"></i>
+                        AI读书视频创作平台
+                    </h1>
+                    <p class="page-subtitle">AI驱动的书单视频创作平台，让每一本书都拥有自己的视觉故事</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span class="status-text">系统就绪</span>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- 视频生成提示区域 -->
-            <div id="videoStatus" class="mt-4" style="display: none;">
-                <p>视频生成中...</p>
+    <!-- 主要内容区域 -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <!-- 左侧表单区域 -->
+                <div class="col-lg-8">
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="fas fa-edit"></i>
+                                创作信息
+                            </h2>
+                            <p class="section-description">填写书籍信息，AI将为您生成独特的视频内容</p>
+                        </div>
+
+                        <form id="bookForm" class="modern-form">
+                            <input type="hidden" id="bookId">
+                            
+                            <!-- 基本信息卡片 -->
+                            <div class="form-card">
+                                <h3 class="card-title">基本信息</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="modalBookName" class="form-label">
+                                                <i class="fas fa-book"></i>
+                                                书名
+                                            </label>
+                                            <input type="text" class="form-control" id="modalBookName" placeholder="请输入书名" required>
+                                            <div class="input-glow"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="modalBookAuthor" class="form-label">
+                                                <i class="fas fa-user"></i>
+                                                作者
+                                            </label>
+                                            <input type="text" class="form-control" id="modalBookAuthor" placeholder="请输入作者姓名" required>
+                                            <div class="input-glow"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="modalBookNote" class="form-label">
+                                        <i class="fas fa-align-left"></i>
+                                        书籍简介
+                                    </label>
+                                    <textarea class="form-control" id="modalBookNote" rows="3" placeholder="可选：请简要描述这本书的内容和亮点"></textarea>
+                                    <div class="input-glow"></div>
+                                </div>
+                            </div>
+
+                            <!-- 创作配置卡片 -->
+                            <div class="form-card">
+                                <h3 class="card-title">创作配置</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="modalBookStyler" class="form-label">
+                                                <i class="fas fa-palette"></i>
+                                                视觉风格
+                                            </label>
+                                            <select class="form-select" id="modalBookStyler" required>
+                                                <option value="">选择视觉风格</option>
+                                                <optgroup label="🎨 艺术风格">
+                                                    <option value="sai-动漫风格">动漫风格</option>
+                                                    <option value="sai-电影感">电影感</option>
+                                                    <option value="sai-数字艺术">数字艺术</option>
+                                                    <option value="artstyle-水彩画">水彩画</option>
+                                                    <option value="artstyle-抽象">抽象艺术</option>
+                                                </optgroup>
+                                                <optgroup label="🎭 创意设计">
+                                                    <option value="sai-3D模型">3D模型</option>
+                                                    <option value="sai-手工黏土">黏土风格</option>
+                                                    <option value="papercraft-立体折纸">折纸艺术</option>
+                                                    <option value="sai-像素艺术">像素艺术</option>
+                                                </optgroup>
+                                                <optgroup label="🌆 现代都市">
+                                                    <option value="futuristic-赛博朋克都市">赛博朋克</option>
+                                                    <option value="misc-大都市">都市风光</option>
+                                                    <option value="sai-霓虹朋克">霓虹朋克</option>
+                                                </optgroup>
+                                                <optgroup label="📸 摄影写实">
+                                                    <option value="sai-摄影">摄影写实</option>
+                                                    <option value="sai-胶片摄影">胶片质感</option>
+                                                    <option value="photo-HDR摄影">HDR效果</option>
+                                                </optgroup>
+                                            </select>
+                                            <div class="input-glow"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="modalBookPrompt" class="form-label">
+                                                <i class="fas fa-magic"></i>
+                                                创作提示词
+                                            </label>
+                                            <input type="text" class="form-control" id="modalBookPrompt" placeholder="可选：添加个性化描述">
+                                            <div class="input-glow"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 生成按钮 -->
+                            <div class="action-section">
+                                <button type="submit" class="btn-generate" id="btnGenerate">
+                                    <span class="btn-text">一键生成视频</span>
+                                    <span class="btn-loader" style="display: none;">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        生成中...
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 右侧预览和状态区域 -->
+                <div class="col-lg-4">
+                    <!-- 预览区域 -->
+                    <div class="preview-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-eye"></i>
+                            预览效果
+                        </h3>
+                        <div class="preview-card">
+                            <div class="preview-placeholder">
+                                <i class="fas fa-play-circle"></i>
+                                <p>完成表单后查看预览</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 状态显示区域 -->
+                    <div class="status-section" id="videoStatus" style="display: none;">
+                        <h3 class="section-title">
+                            <i class="fas fa-cog"></i>
+                            生成状态
+                        </h3>
+                        <div class="status-card">
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span id="text">准备中...</span>
+                                    <span id="progressPercent">0%</span>
+                                </div>
+                            </div>
+                            <div class="status-messages" id="statusMessages">
+                                <!-- 动态状态消息将在这里显示 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 快速提示 -->
+                    <div class="tips-section">
+                        <h4 class="tips-title">
+                            <i class="fas fa-lightbulb"></i>
+                            创作小贴士
+                        </h4>
+                        <ul class="tips-list">
+                            <li>选择适合书籍内容的视觉风格</li>
+                            <li>详细的简介有助于AI更好理解内容</li>
+                            <li>创作提示词可以让视频更具个性</li>
+                            <li>生成时间通常为10-60分钟（视GPU算力情况）</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- 添加Font Awesome图标库 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- 添加页面专用样式 -->
+<link rel="stylesheet" href="/static/css/style_autovideo.css">
 
 <script src="/static/js/autovideo.js"></script>
 {% endblock %}
