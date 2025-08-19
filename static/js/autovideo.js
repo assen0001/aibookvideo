@@ -94,10 +94,12 @@ $(document).ready(function() {
                     // 更新状态文本
                     $('#videoStatus').find('#status-text').text('正在生成视频...');
                     $('#videoStatus').find('#progressPercent').text('0%');
+                    $('#statusMessages').html('');
                     
                     // 调用外部API
-                    // const apiUrl = `${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${book_id}`;
-                    const apiUrl = `${N8N_URL}/webhook/bf24c5d7-427b-4f63-91cc-42e004af8971?book_id=${book_id}`;
+                    const apiUrl = `${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${book_id}`;
+                    // const apiUrl = `${N8N_URL}/webhook/bf24c5d7-427b-4f63-91cc-42e004af8971?book_id=${book_id}`;  // 测试用
+
                     
                     $.get(apiUrl, function(result) {
                         console.log('API调用完成:', result);
@@ -139,7 +141,7 @@ $(document).ready(function() {
         });
     });
 
-    checkVideoStatus(77);
+    checkVideoStatus(0);
 
     // 检查视频动态状态消息显示
     function checkVideoStatus(book_id) {
@@ -172,14 +174,38 @@ $(document).ready(function() {
                 // 更新状态显示
                 $('#videoStatus').show();
                 $('#statusMessages').html(htmlContent);
+                $('#status-text').text('正在生成视频...');
                 
                 // 判断首条任务状态
                 if (jobs[0].job_status === 2) {
                     $('#status-text').text('视频任务全部完成');
                     $('#progressPercent').text('100%');
                     $('#downloadBtn').show();
+                    // 设置视频完成后查看预览效果，用户点击可播放生成的视频
+                    $('.preview-placeholder').html(`
+                        <video controls class="preview-video">
+                            <source src="/${jobs[0].videomerge_url}" type="video/mp4">
+                            您的浏览器不支持 video 标签。
+                        </video>
+                    `);
+
                     return; // 终止轮询
                 }
+
+                // 这里增加判断 jobs数组末尾项目job_type的值：
+                if (jobs[jobs.length - 1].job_type === 1) {
+                    $('#progressPercent').text('10%');
+                } else if (jobs[jobs.length - 1].job_type === 2) {
+                    $('#progressPercent').text('20%');
+                } else if (jobs[jobs.length - 1].job_type === 3) {
+                    $('#progressPercent').text('40%');
+                } else if (jobs[jobs.length - 1].job_type === 4) {
+                    $('#progressPercent').text('60%');
+                } else if (jobs[jobs.length - 1].job_type === 5) {
+                    $('#progressPercent').text('80%');
+                } else if (jobs[jobs.length - 1].job_type === 6) {
+                    $('#progressPercent').text('100%');
+                } 
                 
                 // 10秒后再次查询
                 setTimeout(() => checkVideoStatus(book_id), 10000);

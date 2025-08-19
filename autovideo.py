@@ -44,11 +44,21 @@ def get_video_status():
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
-            # 查询任务状态
-            sql = """SELECT job_name, job_type, job_status, job_note, create_time, stop_time 
-                    FROM ai_jobonline WHERE book_id = %s """
-
-            cursor.execute(sql, (book_id,))
+            # 动态构建SQL查询语句
+            base_sql = """SELECT a.job_name, a.job_type, a.job_status, 
+                          a.job_note, a.create_time, a.stop_time, 
+                          b.videomerge_url
+                       FROM ai_jobonline a
+                       LEFT JOIN ai_videomerge b ON a.book_id = b.book_id"""
+            
+            # 添加WHERE条件判断
+            if book_id and int(book_id) != 0:
+                sql = base_sql + " WHERE a.book_id = %s "
+                cursor.execute(sql, (book_id,))
+            else:
+                sql = base_sql
+                cursor.execute(sql)
+            
             results = cursor.fetchall()
             return jsonify({'status': 'success', 'data': results})
     except Exception as e:
