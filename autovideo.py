@@ -35,3 +35,23 @@ def create_autovideo():
         return jsonify({'status': 'error', 'message': str(e)}), 500
     finally:
         connection.close()
+
+
+# 新增视频状态查询接口
+@autovideo_bp.route('/autovideo/status', methods=['GET'])
+def get_video_status():
+    book_id = request.args.get('book_id')
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            # 查询任务状态
+            sql = """SELECT job_name, job_type, job_status, job_note, create_time, stop_time 
+                    FROM ai_jobonline WHERE book_id = %s """
+
+            cursor.execute(sql, (book_id,))
+            results = cursor.fetchall()
+            return jsonify({'status': 'success', 'data': results})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+    finally:
+        connection.close()

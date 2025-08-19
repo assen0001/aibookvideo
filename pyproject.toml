@@ -9,5 +9,7 @@ dependencies = [
     "pymysql>=1.1.1",
     "dotenv==0.9.9",
     "moviepy>=2.2.1",
+    "cors>=1.0.1",
+    "flask-cors>=6.0.1",
 ]
 

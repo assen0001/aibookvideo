@@ -58,9 +58,12 @@ def delete_videomerge():
 @videomerge_bp.route('/create_video', methods=['POST'])
 def create_video():
     data = request.get_json()
-    if not data or 'book_id' not in data:
+    if not data or 'book_id' not in data:  
+        print(f"no book_id: {data['book_id']}")      
         return jsonify({'error': 'book_id参数缺失'}), 400
-    
+    else:
+       print(f"create_video book_id: {data['book_id']}")
+
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
