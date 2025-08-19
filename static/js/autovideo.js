@@ -93,6 +93,7 @@ $(document).ready(function() {
                     
                     // 更新状态文本
                     $('#videoStatus').find('#status-text').text('正在生成视频...');
+                    $('#videoStatus').find('#progressPercent').text('0%');
                     
                     // 调用外部API
                     // const apiUrl = `${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${book_id}`;
@@ -100,10 +101,6 @@ $(document).ready(function() {
                     
                     $.get(apiUrl, function(result) {
                         console.log('API调用完成:', result);
-                        // 更新成功状态
-                        $('#videoStatus').find('#status-text').text('视频生成请求已发送');
-                        $('#videoStatus').find('.status-spinner').hide();
-                        $('#videoStatus').find('.status-icon').show();
                         // 执行定时刷新任务
                         checkVideoStatus(book_id);
                     }).fail(function() {
@@ -146,8 +143,7 @@ $(document).ready(function() {
 
     // 检查视频动态状态消息显示
     function checkVideoStatus(book_id) {
-        // const checkUrl = `/autovideo/status?book_id=${book_id}`;
-        const checkUrl = `/autovideo/status?book_id=77`;
+        const checkUrl = `/autovideo/status?book_id=${book_id}`;
         
         $.get(checkUrl, function(response) {
             if (response.status === 'success' && response.data.length > 0) {
@@ -159,15 +155,15 @@ $(document).ready(function() {
                     const statusText = {
                         1: '🔄',    // 执行中
                         2: '✅',    // 已完成
-                        3: '⚠️',    // 已暂停
+                        3: '⏳',    // 已暂停
                         4: '❌',    // 已失败
-                        5: '⏳',    // 已取消
+                        5: '⚠️',    // 已取消
                         6: '⏳',    // 排队中
                     }[job.job_status] || '❓'; // 未知状态
                     
                     htmlContent += `
-                        <div class="status-item ${index === 0 ? 'main-status' : ''}">
-                            <span class="job-name">${job.job_name.split('_')[0]}</span>
+                        <div class="status-item ${index === 0 ? 'main-status' : 'sub_status'}">
+                            <span class="job-name">${job.job_name}</span>
                             <span class="job-status">${statusText}</span>
                         </div>
                     `;
@@ -186,11 +182,13 @@ $(document).ready(function() {
                 }
                 
                 // 10秒后再次查询
-                // setTimeout(() => checkVideoStatus(book_id), 10000);
+                setTimeout(() => checkVideoStatus(book_id), 10000);
             }
         }).fail(function() {
-            console.error('状态查询失败');
-            $('#status-text').text('状态查询异常');
+            console.error('没有任务状态数据');
+            $('#status-text').text('没有任务状态数据');
+            $('#progressPercent').text('0%');
+            $('#statusMessages').html('');
         });
     }  
 
