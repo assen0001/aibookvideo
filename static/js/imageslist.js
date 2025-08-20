@@ -375,7 +375,7 @@ $(document).ready(function() {
     
     // 绑定重做图片按钮事件
     $(document).on('click', '.btn-redo-image', function() {
-        if (confirm('确定要重做这条视频吗？')) {
+        if (confirm('确定要重做张图片吗？')) {
             const id = $(this).data('id');
             const field = $(this).data('field');
             const url = `${N8N_URL}/webhook/ce63b3c1-9e01-4e45-ac3d-38c594a0fe22?id=${id}&field=${field}`;
