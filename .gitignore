@@ -12,7 +12,7 @@ build/
 *.idea
 *.vscode
 *.iml
-.venv/
+.venv
 .env
 static/uploads/
 static/font/
