@@ -79,7 +79,7 @@ $(document).ready(function() {
                               <button class="btn btn-sm btn-info btn-generate-prompt" data-id="${image.id}">生成提示词</button>
                               <button class="btn btn-sm btn-warning btn-translate" data-id="${image.id}">翻译</button>
                               <br>
-                              <button class="btn btn-sm btn-success btn-generate-image" data-id="${image.id}">生成图片</button>     
+                              <!-- <button class="btn btn-sm btn-success btn-generate-image" data-id="${image.id}">生成图片</button>  -->   
                               <button class="btn btn-sm btn-success btn-refresh-image" data-id="${image.id}">刷新图片</button>                         
                         </td>
                         <td>
@@ -153,20 +153,20 @@ $(document).ready(function() {
             });
             
             // 绑定事件：文生图(4个图)
-            $('.btn-generate-image').click(function() {
-                const imageId = $(this).data('id');
-                const url = `${N8N_URL}/webhook/ce63b3c1-9e01-4e45-ac3d-38c594a0fe22?id=${imageId}`;
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    success: function(data) {
-                        console.log('图片生成请求已发送');
-                    },
-                    error: function(xhr) {
-                        console.error('图片生成请求失败:', xhr.status, xhr.statusText);
-                    }
-                });
-            });
+            // $('.btn-generate-image').click(function() {
+            //     const imageId = $(this).data('id');
+            //     const url = `${N8N_URL}/webhook/ce63b3c1-9e01-4e45-ac3d-38c594a0fe22?id=${imageId}`;
+            //     $.ajax({
+            //         url: url,
+            //         method: 'GET',
+            //         success: function(data) {
+            //             console.log('图片生成请求已发送');
+            //         },
+            //         error: function(xhr) {
+            //             console.error('图片生成请求失败:', xhr.status, xhr.statusText);
+            //         }
+            //     });
+            // });
 
             // 绑定事件：刷新图片
             $('.btn-refresh-image').click(function() {
@@ -294,12 +294,15 @@ $(document).ready(function() {
                 <img src="${fullUrl}" alt="图片" class="img-thumbnail" data-url="${url}">
                 <div class="d-flex gap-2 align-items-center">
                     <button class="btn btn-sm btn-info btn-redo-image" data-id="${id}" data-field="${field_url}">重做</button>
+                    <!-- // 暂时删除
                     <button class="btn btn-sm btn-danger btn-delete-image" data-id="${id}" data-field="${field}">删除</button>
                     <select class="form-select status-select" data-id="${id}" data-field="${field}">
                         <option value="0" ${status == 0 ? 'selected' : ''}>未选中</option>
                         <option value="1" ${status == 1 ? 'selected' : ''}>选中</option>
                         <option value="2" ${status == 2 ? 'selected' : ''}>图生视频</option>
                     </select>
+                    -->
+
                 </div>
             </div>
         `;
@@ -372,19 +375,21 @@ $(document).ready(function() {
     
     // 绑定重做图片按钮事件
     $(document).on('click', '.btn-redo-image', function() {
-        const id = $(this).data('id');
-        const field = $(this).data('field');
-        const url = `${N8N_URL}/webhook/ce63b3c1-9e01-4e45-ac3d-38c594a0fe22?id=${id}&field=${field}`;
-        $.ajax({
-            url: url,
-            method: 'GET',
-            success: function() {
-                console.log('重做图片请求已发送');
-            },
-            error: function(xhr) {
-                console.error('重做图片请求失败:', xhr.status, xhr.statusText);
-            }
-        });
+        if (confirm('确定要重做这条视频吗？')) {
+            const id = $(this).data('id');
+            const field = $(this).data('field');
+            const url = `${N8N_URL}/webhook/ce63b3c1-9e01-4e45-ac3d-38c594a0fe22?id=${id}&field=${field}`;
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function() {
+                    console.log('重做图片请求已发送');
+                },
+                error: function(xhr) {
+                    console.error('重做图片请求失败:', xhr.status, xhr.statusText);
+                }
+            });
+        }
     });
     
     // 绑定图片点击事件

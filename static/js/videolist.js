@@ -9,7 +9,8 @@ $(document).ready(function() {
          }
      });
      
-     const COMFYUI_URL = config.COMFYUI_URL;
+     const N8N_URL = config.N8N_URL;
+     const COMFYUI_URL = config.COMFYUI_URL;     
      
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -92,12 +93,18 @@ $(document).ready(function() {
             });
 
             // 绑定状态checkbox事件
-            $('.video-status-checkbox').change(updateVideoStatus);
+            // $('.video-status-checkbox').change(updateVideoStatus);
             // 绑定删除按钮事件
-            $(document).on('click', '.delete-btn', function() {
+            // $(document).on('click', '.delete-btn', function() {
+            //     const videoUrl = $(this).data('url');
+            //     deleteVideo(videoUrl);
+            // });
+            // 绑定重做按钮事件
+            $(document).on('click', '.btn-redo-video', function() {
                 const videoUrl = $(this).data('url');
-                deleteVideo(videoUrl);
+                redoVideo(videoUrl);
             });
+
         });
     }
 
@@ -167,7 +174,9 @@ $(document).ready(function() {
         return urls.map((url, index) => {
             const status = index < statuses.length ? statuses[index] : '0';
             return `
-                <div class="form-statustitle">是否选中：
+                <div class="form-statustitle">
+                    <!-- // 暂时删除
+                    是否选中：                      
                     <input class="form-check-input video-status-checkbox" 
                            type="checkbox" 
                            data-url="${url}"
@@ -175,55 +184,73 @@ $(document).ready(function() {
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <button class="btn btn-danger btn-sm delete-btn" 
                         data-video-id="${videoId}" 
-                        data-url="${url}">删除</button>
+                        data-url="${url}">删除</button>  -->
+                    <!-- 这里增加一个"重做"按钮 -->
+                    <button class="btn btn-sm btn-info btn-redo-video" 
+                        data-video-id="${videoId}" 
+                        data-url="${url}">重做</button> 
                 </div>
             `;
         }).join('');
     }
 
     // 更新视频状态
-    function updateVideoStatus() {
-        const checkbox = $(this);
-        const url = checkbox.data('url');
-        const value = checkbox.is(':checked') ? '1' : '0';
+    // function updateVideoStatus() {
+    //     const checkbox = $(this);
+    //     const url = checkbox.data('url');
+    //     const value = checkbox.is(':checked') ? '1' : '0';
         
-        $.ajax({
-            url: '/update_video_status',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                video_url: url,
-                value: value
-            }),
-            success: function() {
-                console.log('视频状态更新成功');
-            }
-        });
-    }
+    //     $.ajax({
+    //         url: '/update_video_status',
+    //         method: 'POST',
+    //         contentType: 'application/json',
+    //         data: JSON.stringify({
+    //             video_url: url,
+    //             value: value
+    //         }),
+    //         success: function() {
+    //             console.log('视频状态更新成功');
+    //         }
+    //     });
+    // }
 
     // 删除视频
-    function deleteVideo(video_url) {
-        if (confirm('确定要删除这条记录吗？')) {
+    // function deleteVideo(video_url) {
+    //     if (confirm('确定要删除这条记录吗？')) {
+    //         $.ajax({
+    //             url: '/delete_video',
+    //             method: 'POST',
+    //             contentType: 'application/json',
+    //             data: JSON.stringify({
+    //                 url: video_url
+    //             }),
+    //             success: function() {
+    //                 console.log('视频删除成功');
+    //                 // 删除成功后刷新列表
+    //                 const bookId = $('#bookSelect').val();
+    //                 if (bookId) {
+    //                     loadVideos(bookId);
+    //                 }
+    //             },
+    //             error: function() {
+    //                 console.error('删除失败');
+    //                 alert('删除失败');
+    //             }
+    //         });
+    //     }
+    // }
+
+    // 重做视频
+    function redoVideo(videoUrl) {
+        if (confirm('确定要重做这条视频吗？')) {
+            // 发送GET请求并不处理回调
             $.ajax({
-                url: '/delete_video',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    url: video_url
-                }),
-                success: function() {
-                    console.log('视频删除成功');
-                    // 删除成功后刷新列表
-                    const bookId = $('#bookSelect').val();
-                    if (bookId) {
-                        loadVideos(bookId);
-                    }
-                },
-                error: function() {
-                    console.error('删除失败');
-                    alert('删除失败');
-                }
+                url: `${N8N_URL}/webhook/2b57113f-d071-409b-b2f7-44c44c046242?video_url=${videoUrl}`,
+                method: 'GET'
             });
+            
+            // 提示后由用户自行刷新
+            alert('已发送视频生成任务，请等待5-10分钟（视GPU算力）后再手动刷新本页');
         }
     }
 
