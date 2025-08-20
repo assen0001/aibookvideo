@@ -20,10 +20,12 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     """
     
     # 加载所有视频片段
+    print("加载视频片段...")
     clips = []
     for vf in video_urls:
         clips.append(VideoFileClip(vf))
-        
+    print(f"已加载视频片段：{len(clips)}")
+    
     # 合并视频
     final_clip = concatenate_videoclips(clips)
 
@@ -117,6 +119,7 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     # 获取音频时长并限制视频长度
     audio_duration = audio_clip.duration  # 获取音频时长（秒）
     final_video = final_video.with_duration(audio_duration)
+
     
     # 创建输出目录（如果不存在）
     output_dir = f"static/uploads/videomerge"
@@ -126,8 +129,11 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     now = datetime.now()
     num = now.strftime("%H%M%S")
     output_filename = f"{output_dir}/video_{book_id}_{num}.mp4"
-    final_video.write_videofile(output_filename, codec='libx264')
-    
+    final_video = final_video.with_effects([vfx.Resize((1080, 1440))])  # 使用with_effects应用缩放
+    final_video.write_videofile(output_filename, 
+                              codec='libx264',
+                              ffmpeg_params=['-vf', 'scale=1080:1440'])  # 添加缩放滤镜
+
     print(f"视频合成完成，保存路径: {output_filename}")
     return output_filename
 

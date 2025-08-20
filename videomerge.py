@@ -76,7 +76,8 @@ def create_video():
         for row in video_rows:
             if row and len(row) > 0:
                 video_urls.append(f"{db_config['COMFYUI_URL']}/view?filename={row['video_url']}")
-        
+        print(f"查询分镜视频共：{len(video_urls)}")
+
         # 查询字幕
         cursor.execute("""
             SELECT paragraph_initial FROM ai_imageslist WHERE book_id = %s
@@ -85,6 +86,7 @@ def create_video():
         for row in cursor._rows:
             if row and len(row) > 0:
                 texts.append(row['paragraph_initial'])
+        print(f"查询字幕共：{len(texts)}")
         
         # 查询字幕元数据
         cursor.execute("""
@@ -94,6 +96,7 @@ def create_video():
         for row in cursor._rows:
             if row and len(row) > 1:
                 time_data.append({"start_time": row['start_time'], "duration": row['duration']})
+        print(f"查询字幕元数据共：{len(time_data)}")
         
         # 查询语音文件
         cursor.execute("""
@@ -105,8 +108,10 @@ def create_video():
         audio_url = f"{db_config['COQUITTS_URL']}/{voice_row[0]['voice_url']}"
         title_txt = voice_row[0]['book_name']
         author_txt = voice_row[0]['book_author']
+        print(f"查询语音文件：{audio_url}")
         
         # 调用视频合成函数
+        print(f"开始合成视频...")
         merge_url = process_videos(
             video_urls=video_urls, 
             title_txt=title_txt,
@@ -116,6 +121,7 @@ def create_video():
             book_id=data['book_id'],
             audio_url=audio_url
         )
+        # print(f"合成视频完成：{merge_url}")
         
         # 保存结果到数据库
         cursor.execute("""
@@ -128,6 +134,7 @@ def create_video():
             UPDATE ai_booklist SET book_status = 6 WHERE id = %s
         """, (data['book_id'],))
         conn.commit()
+        print(f"保存视频记录并更新书单状态")
         
         return jsonify({'success': True})
     except Exception as e:
