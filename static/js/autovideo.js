@@ -180,7 +180,6 @@ $(document).ready(function() {
                 if (jobs[0].job_status === 2) {
                     $('#status-text').text('视频任务全部完成');
                     $('#progressPercent').text('100%');
-                    $('#downloadBtn').show();
                     // 设置视频完成后查看预览效果，用户点击可播放生成的视频
                     $('.preview-placeholder').html(`
                         <video controls class="preview-video">
@@ -202,7 +201,7 @@ $(document).ready(function() {
                 } else if (jobs[jobs.length - 1].job_type === 4) {
                     $('#progressPercent').text('60%');
                 } else if (jobs[jobs.length - 1].job_type === 5) {
-                    $('#progressPercent').text('80%');
+                    $('#progressPercent').text('90%');
                 } else if (jobs[jobs.length - 1].job_type === 6) {
                     $('#progressPercent').text('100%');
                 } 
