@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-
-
 {% block content %}
 <div class="container-fluid mt-3">   
     <!-- 查询表单 0-待生成文案，1-已生成文案，2-已生成字幕，3-已生成语音，4-已生成图片，5-已图生视频 ，6-已完成-->
@@ -17,7 +15,7 @@
                 <div class="col-md-3">
                     <select class="form-select" id="bookStatus">
                         <option value="">全部状态</option>
-                        <option value="0">待生成方案</option>
+                        <option value="0">待生成文案</option>
                         <option value="1">已生成文案</option>
                         <option value="2">已生成字幕</option>
                         <option value="3">已生成语音</option>
@@ -43,7 +41,7 @@
                     <th style="width: 15%;">书名</th>
                     <th>作者</th>
                     <th style="width: 26%;">简介</th>
-                    <th style="width: 26%;">方案</th>
+                    <th style="width: 26%;">文案</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -86,7 +84,7 @@
                         <textarea class="form-control" id="modalBookNote" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="modalBookContent" class="form-label">方案（新建时不用填写）</label>
+                        <label for="modalBookContent" class="form-label">文案（新建时不用填写）</label>
                         <textarea class="form-control" id="modalBookContent" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
@@ -209,7 +207,7 @@
                     <div class="mb-3">
                         <label for="modalBookStatus" class="form-label">状态</label>
                         <select class="form-select" id="modalBookStatus" required>
-                            <option value="0">待生成方案</option>
+                            <option value="0">待生成文案</option>
                             <option value="1">已生成文案</option>
                             <option value="2">已生成字幕</option>
                             <option value="3">已生成语音</option>
