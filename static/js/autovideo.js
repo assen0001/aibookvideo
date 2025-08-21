@@ -92,9 +92,9 @@ $(document).ready(function() {
                     $('#videoStatus').show();
                     
                     // 更新状态文本
-                    $('#videoStatus').find('#status-text').text('正在生成视频...');
+                    $('#videoStatus').find('#status-text').text('发送视频生成请求...');
                     $('#videoStatus').find('#progressPercent').text('0%');
-                    $('#statusMessages').html('');
+                    // $('#statusMessages').html('');
                     
                     // 调用外部API
                     const apiUrl = `${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${book_id}`;
@@ -196,13 +196,13 @@ $(document).ready(function() {
                 } else if (jobs[jobs.length - 1].job_type === 2) {
                     $('#progressPercent').text('20%');
                 } else if (jobs[jobs.length - 1].job_type === 3) {
-                    $('#progressPercent').text('40%');
+                    $('#progressPercent').text('30%');
                 } else if (jobs[jobs.length - 1].job_type === 4) {
-                    $('#progressPercent').text('60%');
+                    $('#progressPercent').text('50%');
                 } else if (jobs[jobs.length - 1].job_type === 5) {
-                    $('#progressPercent').text('90%');
+                    $('#progressPercent').text('70%');
                 } else if (jobs[jobs.length - 1].job_type === 6) {
-                    $('#progressPercent').text('100%');
+                    $('#progressPercent').text('90%');
                 } 
                 
                 // 检查是否有任务失败

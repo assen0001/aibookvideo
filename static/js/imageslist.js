@@ -290,9 +290,9 @@ $(document).ready(function() {
         const fullUrl = `${COMFYUI_URL}/view?filename=${url}`;
         field_url = field.replace("status", "url")
         return `
-            <div class="image-cell">
+            <div class="image-cell text-center">
                 <img src="${fullUrl}" alt="图片" class="img-thumbnail" data-url="${url}">
-                <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex gap-2 justify-content-center mt-2">
                     <button class="btn btn-sm btn-info btn-redo-image" data-id="${id}" data-field="${field_url}">重做</button>
                     <!-- // 暂时删除
                     <button class="btn btn-sm btn-danger btn-delete-image" data-id="${id}" data-field="${field}">删除</button>
@@ -302,7 +302,6 @@ $(document).ready(function() {
                         <option value="2" ${status == 2 ? 'selected' : ''}>图生视频</option>
                     </select>
                     -->
-
                 </div>
             </div>
         `;

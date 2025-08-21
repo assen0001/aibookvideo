@@ -92,3 +92,22 @@ body {
     width: 200px;
     text-align: center;
 }
+
+
+/* 图片单元格样式优化 */
+.image-cell {
+    width: 100%;
+    max-width: 200px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* 按钮容器样式 */
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
