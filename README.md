@@ -25,7 +25,8 @@
  - B站演示视频链接：https://space.bilibili.com/1105978078/upload/video
  - Github项目链接：https://github.com/assen0001/aibookvideo
  - 联系邮箱：17305566@qq.com
- - 微信扫码加入交流群 ![微信交流群](static/images/wx001.jpg)
+ - 微信扫码加入交流群 
+ ![微信交流群](static/images/wx001.jpg)
 
 ## 安装指南
 1. 环境准备
