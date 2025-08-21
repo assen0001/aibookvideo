@@ -141,6 +141,7 @@ $(document).ready(function() {
         });
     });
 
+    // 初始化时检查状态：0-表示查询表ai_jobonline中当前任务
     checkVideoStatus(0);
 
     // 检查视频动态状态消息显示
@@ -161,8 +162,7 @@ $(document).ready(function() {
                         4: '❌',    // 已失败
                         5: '⚠️',    // 已取消
                         6: '⏳',    // 排队中
-                    }[job.job_status] || '❓'; // 未知状态
-                    
+                    }[job.job_status] || '❓'; // 未知状态                    
                     htmlContent += `
                         <div class="status-item ${index === 0 ? 'main-status' : 'sub_status'}">
                             <span class="job-name">${job.job_name}</span>
@@ -187,7 +187,6 @@ $(document).ready(function() {
                             您的浏览器不支持 video 标签。
                         </video>
                     `);
-
                     return; // 终止轮询
                 }
 
@@ -206,8 +205,29 @@ $(document).ready(function() {
                     $('#progressPercent').text('100%');
                 } 
                 
+                // 检查是否有任务失败
+                if ([3, 4, 5].includes(jobs[0].job_status)) {
+                    $('#status-text').text('视频生成失败');
+                     htmlContent += `                      
+                     <div>
+                        <button id="continueBtn" class="btn btn-primary btn-sm">继续执行</button>
+                     </div>
+                     `;
+                    $('#statusMessages').html(htmlContent);
+                    $('#continueBtn').on('click', function() {
+                        if (!confirm('确定要重做张图片吗？')) {return}
+                        // 异步发送GET请求
+                        fetch(`${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${jobs[0].book_id}`)
+                            .catch(error => console.error('请求失败:', error));                        
+                        
+                        // 立即调用状态检查函数
+                        checkVideoStatus(jobs[0].book_id);
+                    });
+                    return; // 终止轮询
+                }
+               
                 // 10秒后再次查询
-                setTimeout(() => checkVideoStatus(book_id), 10000);
+                setTimeout(() => checkVideoStatus(jobs[0].book_id), 10000);
             }
         }).fail(function() {
             console.error('没有任务状态数据');
@@ -216,5 +236,6 @@ $(document).ready(function() {
             $('#statusMessages').html('');
         });
     }  
+
 
 });

@@ -45,7 +45,7 @@ def get_video_status():
     try:
         with connection.cursor() as cursor:
             # 动态构建SQL查询语句
-            base_sql = """SELECT a.job_name, a.job_type, a.job_status, 
+            base_sql = """SELECT a.book_id, a.job_name, a.job_type, a.job_status, 
                           a.job_note, a.create_time, a.stop_time, 
                           b.videomerge_url
                        FROM ai_jobonline a
