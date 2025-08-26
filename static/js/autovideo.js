@@ -84,59 +84,36 @@ $(document).ready(function() {
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            success: function(response) {
-                if (response.status === 'success') {
-                    const book_id = response.book_id;
-                    
-                    // 显示视频生成中提示
-                    $('#videoStatus').show();
-                    
-                    // 更新状态文本
-                    $('#videoStatus').find('#status-text').text('发送视频生成请求...');
-                    $('#videoStatus').find('#progressPercent').text('0%');
-                    // $('#statusMessages').html('');
-                    
-                    // 调用外部API
-                    const apiUrl = `${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${book_id}`;
-                    // const apiUrl = `${N8N_URL}/webhook/bf24c5d7-427b-4f63-91cc-42e004af8971?book_id=${book_id}`;  // 测试用
-
-                    
-                    $.get(apiUrl, function(result) {
-                        console.log('API调用完成:', result);
-                        // 执行定时刷新任务
-                        checkVideoStatus(book_id);
-                    }).fail(function() {
-                        console.error('API调用失败');
-                        alert('视频生成请求发送失败');
-                        $('#videoStatus').hide();
-                        // 错误时恢复按钮状态
-                        $btn.prop('disabled', false);
-                        $btn.find('.btn-text').show();
-                        $btn.find('.btn-loader').hide();
-                    });
-                } else {
-                    alert('创建书单失败: ' + response.message);
+            success: function(response) {                
+                const book_id = response.book_id;                
+                // 显示视频生成中提示
+                $('#videoStatus').show();                
+                // 更新状态文本
+                $('#videoStatus').find('#status-text').text('发送视频生成请求...');
+                $('#videoStatus').find('#progressPercent').text('0%');
+                // $('#statusMessages').html('');
+                
+                // 调用外部API
+                const apiUrl = `${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${book_id}`;           
+                $.get(apiUrl, function(result) {
+                    console.log('API调用完成:', result);                    
+                    // checkVideoStatus(book_id);  // 执行定时刷新任务
+                }).fail(function() {
+                    console.error('API调用失败');
+                    alert('视频生成请求发送失败');
                     $('#videoStatus').hide();
                     // 错误时恢复按钮状态
                     $btn.prop('disabled', false);
                     $btn.find('.btn-text').show();
                     $btn.find('.btn-loader').hide();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('创建书单失败:', error);
-                alert('创建书单失败: ' + error);
-                $('#videoStatus').hide();
-                // 错误时恢复按钮状态
-                $btn.prop('disabled', false);
-                $btn.find('.btn-text').show();
-                $btn.find('.btn-loader').hide();
+                });                
             },
             complete: function() {
                 // 请求完成后保持按钮禁用状态，显示完成信息
                 // $btn.find('.btn-text').text('已提交生成');
-                // $btn.find('.btn-loader').hide();
-                // 不恢复按钮状态，防止重复提交
+                // $btn.find('.btn-loader').hide();      
+                console.log('执行定时刷新任务');   
+                checkVideoStatus(book_id);  // 执行定时刷新任务          
             }
         });
     });
@@ -217,13 +194,13 @@ $(document).ready(function() {
                     $('#continueBtn').on('click', function() {
                         if (!confirm('确定要重做张图片吗？')) {return}
                         // 异步发送GET请求
-                        fetch(`${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${jobs[0].book_id}`)
-                            .catch(error => console.error('请求失败:', error));                        
+                        fetch(`${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?redo=on&book_id=${jobs[0].book_id}`)
+                            .catch(error => console.error('请求失败:', error));
                         
                         // 立即调用状态检查函数
                         checkVideoStatus(jobs[0].book_id);
                     });
-                    return; // 终止轮询
+                    // return; // 终止轮询
                 }
                
                 // 10秒后再次查询
