@@ -31,7 +31,7 @@
 
 ## 安装指南
 1. 环境准备
-   - Python >=3.11,<3.12
+   - Python >=3.9, <3.12
    - Git
    - FFmpeg
    - Moviepy
