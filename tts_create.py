@@ -49,7 +49,7 @@ def text_to_speech_multiple(book_id, texts, speaker_wav, speed, output_dir):
 #     "我记得那天，广陵的烟花格外娇艳",
 #     "三月的天气也暖洋洋的",
 #     "我送别了好友孟浩然，他要去遥远的江南了，望着他乘坐的孤帆渐渐消失在碧空之下",
-#     "我的心情啊，也如同这长江水般奔流不息，思绪万千",
+#     "我的心情啊，也如同这长江水般奔流不息，思路万千",
 #     "“故人西辞黄鹤楼”，第一句我琢磨了许久"
 # ]
 # speaker_wav="speaker/JackMa_mayun.mp3"

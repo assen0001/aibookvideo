@@ -31,10 +31,11 @@
 
 ## 安装指南
 1. 环境准备
-   - Python 3.9+
+   - Python >=3.11,<3.12
    - Git
-   - FFmpeg (用于视频处理)
-   - 数据库（MySQL）
+   - FFmpeg
+   - Moviepy
+   - MySQL
 
 2. 克隆项目
 ```bash
@@ -50,7 +51,7 @@ pip install -r requirements.txt
 4. 配置环境
    - 本地部署Ollama + DeepSeek，并在.env中配置调用API地址
    - 本地部署ComfyUI + Flux + Wan2.1，并在.env中配置调用API地址
-   - 本地部署Coqui-TTS，并在.env中配置调用API地址
+   - 本地部署N8N智能体流程调度平台，并在.env中配置调用API地址
    - 修改.env中数据库配置信息
 
 ## 使用说明
@@ -82,6 +83,12 @@ python main.py
 
 
 ## 版本更新日志
+- 1.3.1 2025.8.25
+  - 优化coqui-tts语音生成代码
+  - 优化n8n流程调度地址参数
+  - 优化.venv环境中包版本匹配
+  - 优化了视频生成流程
+
 - 1.3.0 功能优化 2025.8.20
   - 增加生成视频任务查看管理功能
   - 视频合成分辨率调整为1080

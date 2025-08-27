@@ -3,7 +3,7 @@ name = "aibookvideo"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11,<3.12"
 dependencies = [
     "flask>=3.1.1",
     "pymysql>=1.1.1",
@@ -11,5 +11,6 @@ dependencies = [
     "moviepy>=2.2.1",
     "cors>=1.0.1",
     "flask-cors>=6.0.1",
+    "tts",
 ]
 

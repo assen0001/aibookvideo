@@ -1,7 +1,6 @@
 import os
 from pydub import AudioSegment
-import numpy as np
-from db_connection import get_db_connection
+from common import get_db_connection
 
 def merge_wav_with_metadata(input_dir, output_file, metadata_file, book_id, silence_duration):
     """
@@ -97,11 +96,15 @@ def merge_wav_with_metadata(input_dir, output_file, metadata_file, book_id, sile
             cursor.execute(update_sql, (book_id,))
         
             connection.commit()
+            # 确保文件结尾完整
             connection.close()
-            print("数据库记录写入完成!")     
     except Exception as e:
-        print(f"数据库写入失败: {str(e)}")
-        raise
+        print(f"数据库操作失败: {str(e)}")
+        if 'connection' in locals():
+            connection.rollback()
+            connection.close()
+            print("数据已回滚")
+            raise  
     
     print("文件合并完成!")
     # if metadata_file:

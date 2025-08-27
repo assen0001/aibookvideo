@@ -13,7 +13,7 @@ app = Flask(__name__)
 # 精确配置CORS
 CORS(app, resources={
     r"/create_video": {
-        "origins": ["http://127.0.0.1:5000", "http://47.98.194.143:15678", "http://47.98.194.143:9914"],  # 接受跨域可访问源地址
+        "origins": ["http://47.98.194.143:15678", "http://47.98.194.143:9914"],  # 接受跨域可访问源地址
         "methods": ["POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }
