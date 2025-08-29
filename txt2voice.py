@@ -147,7 +147,7 @@ def create_book_tts():
             print(f'paragraph_array length is: {len(paragraph_array)}')
                 
         output_dir = "static/uploads/voice"    # 输出目录
-        speaker_wav = "speaker/" + speaker_wav + ".mp3"  # 音色文件
+        speaker_wav = "static/speaker/" + speaker_wav + ".mp3"  # 音色文件
         
         # 调用TTS函数
         print('开始生成语音文件...')
