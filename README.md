@@ -48,7 +48,18 @@ cd aibookvideo
 pip install -r requirements.txt
 ```
 
-4. 配置环境
+4. PyTorch安装说明
+- 安装 PyTorch：Coqui TTS 依赖 PyTorch。建议先根据你的环境（是否使用 GPU）安装合适的 PyTorch 版本。
+- 对于 CUDA 11.8 的 GPU 环境：
+```bash
+pip install torch==2.7.1+cu118 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu118
+```
+- 对于 仅 CPU 环境：
+```bash
+pip install torch==2.7.1+cpu torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cpu
+```
+
+5. 配置环境
    - 本地部署Ollama + DeepSeek，并在.env中配置调用API地址
    - 本地部署ComfyUI + Flux + Wan2.1，并在.env中配置调用API地址
    - 本地部署N8N智能体流程调度平台，并在.env中配置调用API地址

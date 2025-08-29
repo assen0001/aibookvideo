@@ -1,21 +1,29 @@
 import torch
 from TTS.api import TTS
 # TTS 在 Ubuntu 18.04 上进行了测试，python >= 3.9， < 3.12..
-		
+
+print('开始测试TTS')
 # Get device 用GPU还是CPU
 device = "cuda" if torch.cuda.is_available() else "cpu"
 # List available TTS models 可以看都有些啥模型名字，注意此时模型文件都没有下载
 # print(TTS().list_models())
 # Init TTS 初始化，传入模型名字，这个路径就得用上面list里的路径，然后下载链接在python安装路径的TTS目录下，这个文件里写的.models.json
 # 使用XTTS模型来实现音色转换功能
-tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2", progress_bar=True).to(device)
- 
+print('开始加载XTTS模型')
+tts = TTS(
+    model_path="tts_models/multilingual/multi-dataset/xtts_v2",
+    config_path="TTS/tts/configs/xtts_config.py",  # 指定配置文件路径
+    progress_bar=True
+).to(device)
+print('XTTS模型加载完成')
+
 # Run TTS运行，必须设置语言
 # Text to speech to a file 这是输出到文件了。
+print('开始生成语音')
 tts.tts_to_file(
     text="讲述的是在二十世纪前期的河南农村，一个孤独无助的农民", 
-    speaker_wav="speaker/YangLan_yl.mp3", 
-    file_path="output_YangLan_yl.wav",
+    speaker_wav="static/speaker/LiJing_lj.mp3", 
+    file_path="static/uploads/voice/output_test.wav",
     language="zh",  # 设置语言为中文
     # 添加更多参数来提高质量
     temperature=0.8,  # 温度参数，影响语音的随机性
@@ -26,6 +34,7 @@ tts.tts_to_file(
     speed=1.2  # 语速
     )
 
+print('语音生成完成')
 
 
 
