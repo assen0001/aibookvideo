@@ -13,16 +13,18 @@ function formatDateTime(dateStr) {
 
 $(document).ready(function() {
     // 从配置读取URL
-    // let config = {};
-    // $.ajax({
-    //     url: '/get_config',
-    //     async: false,
-    //     success: function(data) {
-    //         config = data;
-    //     }
-    // });
+    let config = {};
+    $.ajax({
+        url: '/get_config',
+        async: false,
+        success: function(data) {
+            config = data;
+        }
+    });
 
-    // const COQUI_URL = config.COQUITTS_URL;
+    // const N8N_URL = config.N8N_URL;
+    // const COMFYUI_URL = config.COMFYUI_URL;  
+    const COQUI_URL = config.COQUITTS_URL;
     
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -102,7 +104,7 @@ $(document).ready(function() {
             
             // 发送请求
             $.ajax({
-                url: "/txt2voice_create",
+                url:  `${COQUI_URL}/txt2voice_create`,
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -156,7 +158,7 @@ $(document).ready(function() {
                         const audioElement = `
                             <div class="mb-3 d-flex align-items-center">                                
                                 <audio controls style="width:650px">
-                                    <source src="/${voice.voice_url}" type="audio/mpeg">
+                                    <source src="${COQUI_URL}/${voice.voice_url}" type="audio/mpeg">
                                     您的浏览器不支持音频元素
                                 </audio>
                                 &nbsp;&nbsp;
@@ -248,7 +250,7 @@ $(document).ready(function() {
     // 下载语音
     window.downloadVoice = function(voiceId, filename) {
         const link = document.createElement('a');
-        link.href = `/${filename}`;
+        link.href = `${COQUI_URL}/${filename}`;
         link.target = '_blank';  // 在新窗口中打开
         link.download = filename;
         document.body.appendChild(link);

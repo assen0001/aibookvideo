@@ -77,11 +77,11 @@ $(document).ready(function() {
                     location.reload(); // 刷新页面
                 },
                 error: function(xhr, status, error) {
-                    // console.error('视频合成请求失败:', error);
-                    // alert('视频合成请求失败，请重试');
-                    // $btn.prop('disabled', false);
-                    // $btn.text('视频合成');
-                    location.reload(); // 刷新页面
+                    console.error('视频合成请求失败:', error);
+                    alert('视频合成请求失败，请重试');
+                    $btn.prop('disabled', false);
+                    $btn.text('视频合成');
+                    // location.reload(); // 刷新页面
                 }
             });
         }
