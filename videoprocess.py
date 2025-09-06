@@ -1,6 +1,51 @@
+import requests
+import tempfile
+import os
 from moviepy import *
 from datetime import datetime
-import os
+
+
+def download_file(url, file_type="video"):
+    """
+    下载文件到临时目录
+    
+    参数:
+    url: 文件URL地址
+    file_type: 文件类型（video/audio），用于日志显示
+    
+    返回:
+    local_path: 下载到本地的临时文件路径
+    """
+    try:
+        # 创建临时文件
+        temp_dir = tempfile.gettempdir()
+        
+        # 从URL中提取文件名
+        if 'filename=' in url:
+            filename = os.path.basename(url.split('filename=')[-1])
+        else:
+            # 对于音频文件，从路径中提取文件名
+            filename = os.path.basename(url)
+            if '?' in filename:
+                filename = filename.split('?')[0]
+        
+        local_path = os.path.join(temp_dir, filename)
+        
+        # 下载文件
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+        
+        with open(local_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        
+        print(f"{file_type}文件下载完成: {url} -> {local_path}")
+        return local_path
+        
+    except Exception as e:
+        print(f"{file_type}文件下载失败 {url}: {str(e)}")
+        raise
+
 
 def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id, audio_url):
     """
@@ -22,8 +67,22 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     # 加载所有视频片段
     print("加载视频片段...")
     clips = []
+    local_paths = []  # 保存本地文件路径用于后续清理
+    
     for vf in video_urls:
-        clips.append(VideoFileClip(vf))
+        try:
+            # 先下载视频到本地
+            local_path = download_file(vf, "视频")
+            local_paths.append(local_path)
+            
+            # 加载本地视频文件
+            clips.append(VideoFileClip(local_path))
+            print(f"已加载视频片段: {local_path}")
+            
+        except Exception as e:
+            print(f"加载视频失败 {vf}: {str(e)}")
+            raise
+    
     print(f"已加载视频片段：{len(clips)}")
     
     # 合并视频
@@ -113,8 +172,19 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     video_with_text = CompositeVideoClip([final_clip, title_clip, author_clip] + subtitle_clips)
     
     # 添加音频
-    audio_clip = AudioFileClip(audio_url)
-    final_video = video_with_text.with_audio(audio_clip)
+    try:
+        # 先下载音频文件到本地
+        audio_local_path = download_file(audio_url, "音频")
+        local_paths.append(audio_local_path)
+        
+        # 加载本地音频文件
+        audio_clip = AudioFileClip(audio_local_path)
+        final_video = video_with_text.with_audio(audio_clip)
+        print(f"已加载音频文件: {audio_local_path}")
+        
+    except Exception as e:
+        print(f"加载音频失败 {audio_url}: {str(e)}")
+        raise
     
     # 获取音频时长并限制视频长度
     audio_duration = audio_clip.duration  # 获取音频时长（秒）
@@ -134,6 +204,16 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
                               codec='libx264',
                               ffmpeg_params=['-vf', 'scale=1080:1440'])  # 添加缩放滤镜
 
+    # 在函数最后添加清理代码
+    try:
+        # 删除临时下载的文件
+        for local_path in local_paths:
+            if os.path.exists(local_path):
+                os.remove(local_path)
+                print(f"已清理临时文件: {local_path}")
+    except Exception as e:
+        print(f"清理临时文件时出错: {str(e)}")
+    
     print(f"视频合成完成，保存路径: {output_filename}")
     return output_filename
 

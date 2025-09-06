@@ -97,7 +97,7 @@ $(document).ready(function() {
                 const apiUrl = `${N8N_URL}/webhook/160cb42d-2ee6-4486-9d30-105e8e361f45?book_id=${book_id}`;           
                 $.get(apiUrl, function(result) {
                     console.log('API调用完成:', result);                    
-                    // checkVideoStatus(book_id);  // 执行定时刷新任务
+                    checkVideoStatus(book_id);  // 执行定时刷新任务
                 }).fail(function() {
                     console.error('API调用失败');
                     alert('视频生成请求发送失败');
