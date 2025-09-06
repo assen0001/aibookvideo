@@ -11,8 +11,9 @@ build/
 *.idea
 *.vscode
 *.iml
-.venv
+.venv/
 .env
 static/uploads/
 requirements.md
 uv.lock
+.github/
