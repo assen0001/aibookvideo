@@ -11,6 +11,8 @@ $(document).ready(function() {
      
      const N8N_URL = config.N8N_URL;
      const COMFYUI_URL = config.COMFYUI_URL;     
+     const COQUITTS_URL = config.COQUITTS_URL;
+     const AIBOOKVIDEO_URL = config.AIBOOKVIDEO_URL;
      
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -99,14 +101,15 @@ $(document).ready(function() {
             //     const videoUrl = $(this).data('url');
             //     deleteVideo(videoUrl);
             // });
-            // 绑定重做按钮事件
-            $(document).on('click', '.btn-redo-video', function() {
-                const videoUrl = $(this).data('url');
-                redoVideo(videoUrl);
-            });
 
         });
     }
+
+    // 绑定重做按钮事件
+    $(document).on('click', '.btn-redo-video', function() {
+        const videoUrl = $(this).data('url');
+        redoVideo(videoUrl);
+    });
 
     // 渲染视频分页控件
     function renderVideosPagination(currentPage, totalPages) {
@@ -175,20 +178,17 @@ $(document).ready(function() {
             const status = index < statuses.length ? statuses[index] : '0';
             return `
                 <div class="form-statustitle">
-                    <!-- // 暂时删除
+                    <!-- 
+                    // 暂时删除
                     是否选中：                      
-                    <input class="form-check-input video-status-checkbox" 
-                           type="checkbox" 
-                           data-url="${url}"
-                           ${status === '1' ? 'checked' : ''}>
+                    <input class="form-check-input video-status-checkbox" type="checkbox" data-url="${url}" ${status === '1' ? 'checked' : ''}>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button class="btn btn-danger btn-sm delete-btn" 
-                        data-video-id="${videoId}" 
-                        data-url="${url}">删除</button>  -->
+                    <button class="btn btn-danger btn-sm delete-btn" data-video-id="${videoId}" data-url="${url}">删除</button> 
+                    -->
                     <!-- 这里增加一个"重做"按钮 -->
-                    <button class="btn btn-sm btn-info btn-redo-video" 
-                        data-video-id="${videoId}" 
-                        data-url="${url}">重做</button> 
+                    <button class="btn btn-sm btn-success btn-redo-video" data-video-id="${videoId}" data-url="${url}">重做</button> 
+                    <!-- 这里增加一个“下载”按钮 -->
+                    <button class="btn btn-sm btn-success btn-download-video" data-video-id="${videoId}" data-url="${url}">下载</button> 
                 </div>
             `;
         }).join('');
@@ -243,12 +243,17 @@ $(document).ready(function() {
     // 重做视频
     function redoVideo(videoUrl) {
         if (confirm('确定要重做这条视频吗？')) {
-            // 发送GET请求并不处理回调
+            // 发送POST请求并不处理回调
             $.ajax({
-                url: `${N8N_URL}/webhook/2b57113f-d071-409b-b2f7-44c44c046242?video_url=${videoUrl}`,
-                method: 'GET'
-            });
-            
+                url: `${N8N_URL}/webhook/2b57113f-d071-409b-b2f7-44c44c046242`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({                   
+                    video_url: videoUrl,
+                    comfyui_url: COMFYUI_URL
+                })
+            });            
+
             // 提示后由用户自行刷新
             alert('已发送视频生成任务，请等待5-10分钟（视GPU算力）后再手动刷新本页');
         }
@@ -269,4 +274,72 @@ $(document).ready(function() {
         }
     });
 
+
+    // 生成视频按钮点击事件
+    $('#generateVideosBtn').click(function() {       
+        // 获取当前下拉控件所选中的书单ID
+        const bookId = $('#bookSelect').val();
+        if (!bookId) {
+            alert('请先选择书单！');
+            return;
+        }
+
+        // 弹出确认窗口
+        if (!confirm('视频生成时间较长，请稍后返回页面查看，是否继续生成？')) {
+            return;
+        }
+
+        // 设置按钮为禁用状态，防止重复点击
+        $(this).prop('disabled', true);
+        
+        // 发送AJAX POST请求
+        const url = `${N8N_URL}/webhook/3efab159-0bc5-4da9-87b0-31d9d01d53fa`;
+        
+        $.ajax({
+            url: url,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                book_id: bookId,
+                aibookvideo_url: AIBOOKVIDEO_URL,
+                n8n_url: N8N_URL,
+                comfyui_url: COMFYUI_URL,
+                coquitts_url: COQUITTS_URL
+            }),
+            success: function(data) {
+                console.log('视频生成请求已发送');
+                alert('视频生成请求已发送成功！');
+            },
+            error: function(xhr) {
+                console.error('视频生成请求失败:', xhr.status, xhr.statusText);
+                alert('视频生成请求失败，请稍后重试！');
+            },
+            complete: function() {
+                // 无论成功或失败，都重新启用按钮
+                $('#generateVideosBtn').prop('disabled', false);
+            }
+        });
+    });
+
+    // 下载视频功能
+    $(document).on('click', '.btn-download-video', function() {
+        // 弹出确认对话框
+        // if (!confirm('确定要下载这个视频吗？')) { return; }
+        
+        // 获取data-url值
+        const url = $(this).data('url');
+        
+        // 拼接完整的视频URL
+        const fullUrl = `${COMFYUI_URL}/view?filename=${url}`;
+        
+        // 创建隐藏的下载链接并触发点击
+        const downloadLink = document.createElement('a');
+        downloadLink.href = fullUrl;
+        downloadLink.download = url; // 使用原始文件名作为下载文件名
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    });
+    
 });

@@ -221,7 +221,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify({id: bookId}),
             success: function() {
-                alert('删除成功');
+                // alert('删除成功');
                 loadBooklistData();
             }
         });

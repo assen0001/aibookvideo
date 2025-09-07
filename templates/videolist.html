@@ -3,10 +3,17 @@
 {% block content %}
 <div class="container-fluid mt-3">  
     <div class="row mb-3">
-        <div class="col-md-4">
+        <div class="col-md-1 d-flex align-items-center justify-content-center">
+            选择书单：
+        </div>
+        <div class="col-md-2">
             <select class="form-select" id="bookSelect">
                 <option value="">-- 请选择 --</option>
             </select>
+        </div>
+        <!-- 添加一个生成视频按钮 -->
+        <div class="col-md-2">
+            <button id="generateVideosBtn" class="btn btn-primary">生成视频</button>
         </div>
     </div>
 

@@ -133,8 +133,14 @@ def delete_book():
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
+            # 删除ai_booklist表中的记录
             sql = "DELETE FROM ai_booklist WHERE id = %s"
             cursor.execute(sql, (data['id'],))
+            
+            # 删除ai_jobonline表中相关的记录
+            sql2 = "DELETE FROM ai_jobonline WHERE book_id = %s"
+            cursor.execute(sql2, (data['id'],))
+            
             connection.commit()
             return jsonify({'status': 'success'})
     finally:

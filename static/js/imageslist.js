@@ -11,6 +11,8 @@ $(document).ready(function() {
 
     const N8N_URL = config.N8N_URL;
     const COMFYUI_URL = config.COMFYUI_URL;
+    const COQUITTS_URL = config.COQUITTS_URL;
+    const AIBOOKVIDEO_URL = config.AIBOOKVIDEO_URL;
     
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -129,6 +131,7 @@ $(document).ready(function() {
             // 绑定事件：生成提示词
             $('.status-select').change(updateImageStatus);
             $('.btn-generate-prompt').click(function() {
+                if (!confirm('确定要生成提示词吗？')) return;
                 const imageId = $(this).data('id');
                 const url = `${N8N_URL}/webhook/7b575fd1-2d86-4cc1-8ccb-55e01df114f1?id=${imageId}`;
                 $.get(url, function(data) {
@@ -138,6 +141,7 @@ $(document).ready(function() {
             
             // 绑定事件：中文翻译成英文(仅翻译)
             $('.btn-translate').click(function() {
+                if (!confirm('确定要翻译吗？')) return;
                 const imageId = $(this).data('id');
                 const url = `${N8N_URL}/webhook/7b575fd1-2d86-4cc1-8ccb-55e01df114f1?id=${imageId}&translate=only`;
                 $.ajax({
@@ -170,6 +174,7 @@ $(document).ready(function() {
 
             // 绑定事件：刷新图片
             $('.btn-refresh-image').click(function() {
+                if (!confirm('确定要刷新图片吗？')) return;
                 const imageId = $(this).data('id');
                 $.ajax({
                     url: '/get_images_by_id',
@@ -293,8 +298,11 @@ $(document).ready(function() {
             <div class="image-cell text-center">
                 <img src="${fullUrl}" alt="图片" class="img-thumbnail" data-url="${url}">
                 <div class="d-flex gap-2 justify-content-center mt-2">
-                    <button class="btn btn-sm btn-info btn-redo-image" data-id="${id}" data-field="${field_url}">重做</button>
-                    <!-- // 暂时删除
+                    <button class="btn btn-sm btn-success btn-redo-image" data-id="${id}" data-field="${field_url}">重做</button>
+                    <!-- 这里增加一个“下载”按钮 -->
+                    <button class="btn btn-sm btn-success btn-download-image" data-image-id="${id}" data-url="${url}">下载</button> 
+                    <!-- 
+                    // 暂时删除
                     <button class="btn btn-sm btn-danger btn-delete-image" data-id="${id}" data-field="${field}">删除</button>
                     <select class="form-select status-select" data-id="${id}" data-field="${field}">
                         <option value="0" ${status == 0 ? 'selected' : ''}>未选中</option>
@@ -377,10 +385,16 @@ $(document).ready(function() {
         if (confirm('确定要重做张图片吗？')) {
             const id = $(this).data('id');
             const field = $(this).data('field');
-            const url = `${N8N_URL}/webhook/ce63b3c1-9e01-4e45-ac3d-38c594a0fe22?id=${id}&field=${field}`;
+            const url = `${N8N_URL}/webhook/ce63b3c1-9e01-4e45-ac3d-38c594a0fe22`;
             $.ajax({
                 url: url,
-                method: 'GET',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: id,
+                    field: field,
+                    comfyui_url: COMFYUI_URL
+                }),
                 success: function() {
                     console.log('重做图片请求已发送');
                 },
@@ -389,6 +403,27 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+
+    // 下载图片功能
+    $(document).on('click', '.btn-download-image', function() {
+        // 弹出确认对话框
+        // if (!confirm('确定要下载这个图片吗？')) { return; }
+        
+        // 获取data-url值
+        const url = $(this).data('url');
+        
+        // 拼接完整的图片URL
+        const fullUrl = `${COMFYUI_URL}/view?filename=${url}`;
+        
+        // 创建隐藏的下载链接并触发点击
+        const downloadLink = document.createElement('a');
+        downloadLink.href = fullUrl;
+        downloadLink.download = url; // 使用原始文件名作为下载文件名
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
     });
     
     // 绑定图片点击事件
@@ -473,6 +508,52 @@ $(document).ready(function() {
             document.cookie = 'selectedBookId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             $('#imagesTable tbody').empty();
         }
+    });
+
+    // 生成图片按钮点击事件
+    $('#generateImagesBtn').click(function() {       
+        // 获取当前下拉控件所选中的书单ID
+        const bookId = $('#bookSelect').val();
+        if (!bookId) {
+            alert('请先选择书单！');
+            return;
+        }
+
+        // 弹出确认窗口
+        if (!confirm('图片生成时间较长，请稍后返回页面查看，是否继续生成？')) {
+            return;
+        }
+
+        // 设置按钮为禁用状态，防止重复点击
+        $(this).prop('disabled', true);
+        
+        // 发送AJAX POST请求
+        const url = `${N8N_URL}/webhook/0fc9286c-9c62-4906-9b27-332169153dcf`;
+        
+        $.ajax({
+            url: url,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                book_id: bookId,
+                aibookvideo_url: AIBOOKVIDEO_URL,
+                n8n_url: N8N_URL,
+                comfyui_url: COMFYUI_URL,
+                coquitts_url: COQUITTS_URL
+            }),
+            success: function(data) {
+                console.log('图片生成请求已发送');
+                alert('图片生成请求已发送成功！');
+            },
+            error: function(xhr) {
+                console.error('图片生成请求失败:', xhr.status, xhr.statusText);
+                alert('图片生成请求失败，请稍后重试！');
+            },
+            complete: function() {
+                // 无论成功或失败，都重新启用按钮
+                $('#generateImagesBtn').prop('disabled', false);
+            }
+        });
     });
 
 });

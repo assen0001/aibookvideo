@@ -28,6 +28,7 @@ def create_autovideo():
             
             # 获取自增ID
             book_id = cursor.lastrowid
+            print(f"自增ID为: ${book_id}")
             
             return jsonify({'status': 'success', 'book_id': book_id})
     except Exception as e:
@@ -41,6 +42,7 @@ def create_autovideo():
 @autovideo_bp.route('/autovideo/status', methods=['GET'])
 def get_video_status():
     book_id = request.args.get('book_id')
+    print("book_id: "+book_id)
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:

@@ -205,6 +205,9 @@ $(document).ready(function() {
 
     // 下载视频
     window.downloadVideo = function(videoId, filename) {
+        // 弹出确认对话框
+        if (!confirm('确定要下载这个视频吗？')) { return; } 
+        
         const link = document.createElement('a');
         link.href = `/${filename}`;
         link.download = filename;

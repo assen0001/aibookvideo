@@ -15,7 +15,8 @@ db_config = {
     'ZC_MYSQL_PORT': os.getenv('ZC_MYSQL_PORT'),
     'N8N_URL': os.getenv('N8N_URL'),
     'COMFYUI_URL': os.getenv('COMFYUI_URL'),
-    'COQUITTS_URL': os.getenv('COQUITTS_URL')
+    'COQUITTS_URL': os.getenv('COQUITTS_URL'),
+    'AIBOOKVIDEO_URL': os.getenv('AIBOOKVIDEO_URL')
 }
 
 
@@ -35,5 +36,6 @@ def get_config():
     return jsonify({
         'N8N_URL': db_config.get('N8N_URL'),
         'COMFYUI_URL': db_config.get('COMFYUI_URL'),
-        'COQUITTS_URL': db_config.get('COQUITTS_URL')
+        'COQUITTS_URL': db_config.get('COQUITTS_URL'),
+        'AIBOOKVIDEO_URL': db_config.get('AIBOOKVIDEO_URL')
     })
