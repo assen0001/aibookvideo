@@ -551,7 +551,7 @@ $(document).ready(function() {
             },
             complete: function() {
                 // 无论成功或失败，都重新启用按钮
-                $('#generateImagesBtn').prop('disabled', false);
+                // $('#generateImagesBtn').prop('disabled', false);
             }
         });
     });

@@ -316,7 +316,7 @@ $(document).ready(function() {
             },
             complete: function() {
                 // 无论成功或失败，都重新启用按钮
-                $('#generateVideosBtn').prop('disabled', false);
+                // $('#generateVideosBtn').prop('disabled', false);
             }
         });
     });
