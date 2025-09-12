@@ -29,7 +29,7 @@
  - 联系邮箱：17305566@qq.com
  - 有任何问题欢迎联系我们，提供技术支持。
  - 微信扫码加入交流群 
- <img src="static/images/wx001.jpg" width=100 height=100>
+ <img src="/https://aibook.shgis.com/static/images/wx001.jpg" width=100 height=100>
 
 ## 安装指南
 1. 环境准备
@@ -51,11 +51,12 @@ pip install -r requirements.txt
 ```
 
 5. 配置环境
+   - 本地部署N8N智能体流程调度平台，并在.env中配置调用API地址
    - 本地部署Ollama + DeepSeek，并在.env中配置调用API地址
    - 本地部署ComfyUI + Flux + Wan2.1，并在.env中配置调用API地址
-   - 本地部署N8N智能体流程调度平台，并在.env中配置调用API地址
-   - 本地部署Coqui-TTS语音合成模型，并在.env中配置调用API地址（详见：）
+   - 本地部署Coqui-TTS语音合成模型，并在.env中配置调用API地址（详见：https://github.com/assen0001/coquitts）
    - 修改.env中数据库配置信息
+   - 如果你不会部署上面本地服务，可以联系我们提供已经部署好的镜像文件。
 
 ## 使用说明
 1. 启动服务
