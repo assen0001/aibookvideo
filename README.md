@@ -54,7 +54,7 @@ pip install -r requirements.txt
    - 本地部署N8N智能体流程调度平台，并在.env中配置调用API地址
    - 本地部署Ollama + DeepSeek，并在.env中配置调用API地址
    - 本地部署ComfyUI + Flux + Wan2.1，并在.env中配置调用API地址
-   - 本地部署Coqui-TTS语音合成模型，并在.env中配置调用API地址（详见：https://github.com/assen0001/coquitts）
+   - 本地部署Coqui-TTS语音合成模型，并在.env中配置调用API地址。详见：https://github.com/assen0001/coquitts
    - 修改.env中数据库配置信息
    - 如果你不会部署上面本地服务，可以联系我们提供已经部署好的镜像文件。
 
