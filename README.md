@@ -29,7 +29,7 @@
  - 联系邮箱：17305566@qq.com
  - 有任何问题欢迎联系我们，提供技术支持。
  - 微信扫码加入交流群 
- <img src="/https://aibook.shgis.com/static/images/wx001.jpg" width=100 height=100>
+ <img src="/static/images/wx001.jpg" width=100 height=100>
 
 ## 安装指南
 1. 环境准备
