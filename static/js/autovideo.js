@@ -13,6 +13,7 @@ $(document).ready(function() {
      const COMFYUI_URL = config.COMFYUI_URL;
      const COQUITTS_URL = config.COQUITTS_URL;
      const AIBOOKVIDEO_URL = config.AIBOOKVIDEO_URL;
+     const COMFYUI_URL_WAN = config.COMFYUI_URL_WAN;
      
     // 实时预览更新
     $('#modalBookName, #modalBookAuthor, #modalBookNote').on('input', function() {
@@ -102,6 +103,7 @@ $(document).ready(function() {
                     aibookvideo_url: AIBOOKVIDEO_URL,
                     n8n_url: N8N_URL,
                     comfyui_url: COMFYUI_URL,
+                    comfyui_url_wan: COMFYUI_URL_WAN,
                     coquitts_url: COQUITTS_URL,
                 }, function(result) {
                     console.log('API调用完成:', result);                    
@@ -212,6 +214,7 @@ $(document).ready(function() {
                                 aibookvideo_url: AIBOOKVIDEO_URL,
                                 n8n_url: N8N_URL,
                                 comfyui_url: COMFYUI_URL,
+                                comfyui_url_wan: COMFYUI_URL_WAN,
                                 coquitts_url: COQUITTS_URL,
                             })
                         }).catch(error => console.error('请求失败:', error));

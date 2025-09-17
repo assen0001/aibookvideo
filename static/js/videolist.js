@@ -13,6 +13,7 @@ $(document).ready(function() {
      const COMFYUI_URL = config.COMFYUI_URL;     
      const COQUITTS_URL = config.COQUITTS_URL;
      const AIBOOKVIDEO_URL = config.AIBOOKVIDEO_URL;
+     const COMFYUI_URL_WAN = config.COMFYUI_URL_WAN;
      
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -158,7 +159,7 @@ $(document).ready(function() {
     function renderVideoCell(url, imageId, status) {
         if (!url) return '';
         
-        const fullUrl = `${COMFYUI_URL}/view?filename=${url}`;
+        const fullUrl = `${COMFYUI_URL_WAN}/view?filename=${url}`;
         return `
             <div class="video-thumbnail-container">
                 <video src="${fullUrl}" 
@@ -250,7 +251,8 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 data: JSON.stringify({                   
                     video_url: videoUrl,
-                    comfyui_url: COMFYUI_URL
+                    comfyui_url: COMFYUI_URL,
+                    comfyui_url_wan: COMFYUI_URL_WAN
                 })
             });            
 
@@ -304,6 +306,7 @@ $(document).ready(function() {
                 aibookvideo_url: AIBOOKVIDEO_URL,
                 n8n_url: N8N_URL,
                 comfyui_url: COMFYUI_URL,
+                comfyui_url_wan: COMFYUI_URL_WAN,
                 coquitts_url: COQUITTS_URL
             }),
             success: function(data) {
@@ -330,7 +333,7 @@ $(document).ready(function() {
         const url = $(this).data('url');
         
         // 拼接完整的视频URL
-        const fullUrl = `${COMFYUI_URL}/view?filename=${url}`;
+        const fullUrl = `${COMFYUI_URL_WAN}/view?filename=${url}`;
         
         // 创建隐藏的下载链接并触发点击
         const downloadLink = document.createElement('a');

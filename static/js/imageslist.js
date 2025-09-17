@@ -13,6 +13,7 @@ $(document).ready(function() {
     const COMFYUI_URL = config.COMFYUI_URL;
     const COQUITTS_URL = config.COQUITTS_URL;
     const AIBOOKVIDEO_URL = config.AIBOOKVIDEO_URL;
+    const COMFYUI_URL_WAN = config.COMFYUI_URL_WAN;
     
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -441,7 +442,7 @@ $(document).ready(function() {
             data: JSON.stringify({images_url: url}),
             success: function(response) {
                 if (response.video_url) {
-                    const videoUrl = `${COMFYUI_URL}/view?filename=${response.video_url}`;
+                    const videoUrl = `${COMFYUI_URL_WAN}/view?filename=${response.video_url}`;
                     const videoElement = createVideoElement(videoUrl, imgElement);
                     imgElement.parentNode.replaceChild(videoElement, imgElement);
                 }
