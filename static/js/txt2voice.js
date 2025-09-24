@@ -13,18 +13,19 @@ function formatDateTime(dateStr) {
 
 $(document).ready(function() {
     // 从配置读取URL
-    let config = {};
-    $.ajax({
-        url: '/get_config',
-        async: false,
-        success: function(data) {
-            config = data;
-        }
-    });
+    // let config = {};
+    // $.ajax({
+    //     url: '/get_config',
+    //     async: false,
+    //     success: function(data) {
+    //         config = data;
+    //     }
+    // });
 
     // const N8N_URL = config.N8N_URL;
     // const COMFYUI_URL = config.COMFYUI_URL;  
-    const COQUI_URL = config.COQUITTS_URL;
+    // const COQUI_URL = config.COQUITTS_URL;
+    // const INDEXTTS_URL = config.INDEXTTS_URL;    
     
     // Cookie操作函数
     function setCookie(name, value, days) {
@@ -104,7 +105,7 @@ $(document).ready(function() {
             
             // 发送请求
             $.ajax({
-                url:  `${COQUI_URL}/txt2voice_create`,
+                url:  `/txt2voice_create`,
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -114,8 +115,10 @@ $(document).ready(function() {
                 }),
                 success: function(response) {
                     console.log('语音生成请求已提交成功');
-                    alert('语音生成请求已提交，系统正在处理，请稍后刷新页面查看结果');
+                    // alert('语音生成请求已提交，系统正在处理，请稍后刷新页面查看结果');
                     $submitBtn.prop('disabled', false).text('字幕转换成语音').removeClass('disabled');
+                    // 刷新本页面
+                    location.reload();
                     // 可以考虑添加一个轮询函数来检查生成状态
                 },
                 error: function(xhr, status, error) {
@@ -127,9 +130,15 @@ $(document).ready(function() {
         }
     });
 
-
     // 加载书单数据
     loadBooklists();
+    
+    // 为音色选项添加点击播放功能
+    $('input[name="voiceType"]').on('click', function() {
+        const audioUrl = `/static/speaker/${$(this).val()}`;
+        const audio = new Audio(audioUrl);
+        audio.play();
+    });
 
     // 语速控制滑块联动
     $('#speedSlider').on('input', function() {
@@ -158,7 +167,7 @@ $(document).ready(function() {
                         const audioElement = `
                             <div class="mb-3 d-flex align-items-center">                                
                                 <audio controls style="width:650px">
-                                    <source src="${COQUI_URL}/${voice.voice_url}" type="audio/mpeg">
+                                    <source src="/${voice.voice_url}" type="audio/mpeg">
                                     您的浏览器不支持音频元素
                                 </audio>
                                 &nbsp;&nbsp;
@@ -250,7 +259,7 @@ $(document).ready(function() {
     // 下载语音
     window.downloadVoice = function(voiceId, filename) {
         const link = document.createElement('a');
-        link.href = `${COQUI_URL}/${filename}`;
+        link.href = `/${filename}`;
         link.target = '_blank';  // 在新窗口中打开
         link.download = filename;
         document.body.appendChild(link);

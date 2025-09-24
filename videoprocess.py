@@ -173,32 +173,32 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
     
     # 添加音频
     try:
-        # 先下载音频文件到本地
-        audio_local_path = download_file(audio_url, "音频")
-        local_paths.append(audio_local_path)
-        
-        # 加载本地音频文件
+        # 加载本地音频文件， audio_url = /static/uploads/voicemerge/merged_109_190152.wav
+        audio_local_path = os.path.join(os.getcwd(), audio_url.lstrip('/'))
         audio_clip = AudioFileClip(audio_local_path)
         final_video = video_with_text.with_audio(audio_clip)
-        print(f"已加载音频文件: {audio_local_path}")
-        
+        print(f"已加载音频文件: {audio_local_path}")        
     except Exception as e:
-        print(f"加载音频失败 {audio_url}: {str(e)}")
+        print(f"加载音频失败 {audio_local_path}: {str(e)}")
         raise
     
     # 获取音频时长并限制视频长度
     audio_duration = audio_clip.duration  # 获取音频时长（秒）
     final_video = final_video.with_duration(audio_duration)
-
     
-    # 创建输出目录（如果不存在）
-    output_dir = f"static/uploads/videomerge"
-    os.makedirs(output_dir, exist_ok=True)
+    # 输出目录, 从audio_url截取目录
+    # output_dir = os.path.join(os.getcwd(), os.path.dirname(audio_url.lstrip('/')))
+    # output_dir 目录为 static/uploads/videomerge/
+    # output_dir = os.path.join(os.getcwd(), "static/uploads/videomerge/")
+  
     
     # 输出处理后的视频
     now = datetime.now()
     num = now.strftime("%H%M%S")
-    output_filename = f"{output_dir}/video_{book_id}_{num}.mp4"
+    output_dir = "static/uploads/videomerge"
+    video_filename = f"{output_dir}/video_{book_id}_{num}.mp4"
+    output_filename = os.path.join(os.getcwd(), video_filename)
+    
     final_video = final_video.with_effects([vfx.Resize((1080, 1440))])  # 使用with_effects应用缩放
     final_video.write_videofile(output_filename, 
                               codec='libx264',
@@ -215,7 +215,7 @@ def process_videos(video_urls, title_txt, author_txt, texts, time_data, book_id,
         print(f"清理临时文件时出错: {str(e)}")
     
     print(f"视频合成完成，保存路径: {output_filename}")
-    return output_filename
+    return video_filename
 
 
 

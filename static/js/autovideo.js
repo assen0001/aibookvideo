@@ -12,6 +12,7 @@ $(document).ready(function() {
      const N8N_URL = config.N8N_URL;
      const COMFYUI_URL = config.COMFYUI_URL;
      const COQUITTS_URL = config.COQUITTS_URL;
+     const INDEXTTS_URL = config.INDEXTTS_URL;
      const AIBOOKVIDEO_URL = config.AIBOOKVIDEO_URL;
      const COMFYUI_URL_WAN = config.COMFYUI_URL_WAN;
      
@@ -105,6 +106,7 @@ $(document).ready(function() {
                     comfyui_url: COMFYUI_URL,
                     comfyui_url_wan: COMFYUI_URL_WAN,
                     coquitts_url: COQUITTS_URL,
+                    indextts_url: INDEXTTS_URL,
                 }, function(result) {
                     console.log('API调用完成:', result);                    
                     checkVideoStatus(book_id);  // 执行定时刷新任务
@@ -216,6 +218,7 @@ $(document).ready(function() {
                                 comfyui_url: COMFYUI_URL,
                                 comfyui_url_wan: COMFYUI_URL_WAN,
                                 coquitts_url: COQUITTS_URL,
+                                indextts_url: INDEXTTS_URL,
                             })
                         }).catch(error => console.error('请求失败:', error));
                         

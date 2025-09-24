@@ -75,7 +75,7 @@ def create_video():
         video_urls = []
         for row in video_rows:
             if row and len(row) > 0:
-                video_urls.append(f"{db_config['COMFYUI_URL']}/view?filename={row['video_url']}")
+                video_urls.append(f"{db_config['COMFYUI_URL_WAN']}/view?filename={row['video_url']}")
         print(f"查询分镜视频共：{len(video_urls)}")
 
         # 查询字幕
@@ -88,7 +88,7 @@ def create_video():
                 texts.append(row['paragraph_initial'])
         print(f"查询字幕共：{len(texts)}")
         
-        # 查询字幕元数据
+        # 查询字幕语音元数据
         cursor.execute("""
             SELECT start_time, duration FROM ai_voicelist WHERE book_id = %s
         """, (data['book_id'],))
@@ -98,14 +98,14 @@ def create_video():
                 time_data.append({"start_time": row['start_time'], "duration": row['duration']})
         print(f"查询字幕元数据共：{len(time_data)}")
         
-        # 查询语音文件
+        # 查询语音（合成）文件
         cursor.execute("""
             SELECT a.book_name, a.book_author, b.voice_url 
             FROM ai_booklist a LEFT JOIN ai_voicemerge b on a.id = b.book_id
             WHERE a.id = %s and b.voice_status = 1
         """, (data['book_id'],))
         voice_row = cursor._rows
-        audio_url = f"{db_config['COQUITTS_URL']}/{voice_row[0]['voice_url']}"
+        audio_url = f"/{voice_row[0]['voice_url']}"
         title_txt = voice_row[0]['book_name']
         author_txt = voice_row[0]['book_author']
         print(f"查询语音文件：{audio_url}")

@@ -1,9 +1,16 @@
 /*
+Navicat MySQL Data Transfer
+
+Source Server         : 47.98.194.143-阿里云
+Source Server Version : 50744
+Source Host           : 47.98.194.143:3869
 Source Database       : aibookvideo
+
 Target Server Type    : MYSQL
 Target Server Version : 50744
 File Encoding         : 65001
-Date: 2025-09-10 15:35:35
+
+Date: 2025-09-24 11:01:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,7 +30,7 @@ CREATE TABLE `ai_booklist` (
   `createtime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `sdxl_prompt_styler` varchar(255) DEFAULT NULL COMMENT '提示词样式',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for ai_imageslist
@@ -49,7 +56,7 @@ CREATE TABLE `ai_imageslist` (
   `sdxl_prompt_styler` varchar(255) DEFAULT NULL COMMENT '提示词样式',
   `camera_movement` varchar(255) DEFAULT NULL COMMENT '运镜动作',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1704 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1897 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for ai_jobonline
@@ -67,7 +74,7 @@ CREATE TABLE `ai_jobonline` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `stop_time` datetime DEFAULT NULL COMMENT '结束时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=369 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=448 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for ai_videolist
@@ -82,7 +89,7 @@ CREATE TABLE `ai_videolist` (
   `video_status` int(11) DEFAULT '1' COMMENT '视频状态：0-未选中，1-选中',
   `createtime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1629 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1936 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for ai_videomerge
@@ -96,7 +103,7 @@ CREATE TABLE `ai_videomerge` (
   `video_status` int(11) DEFAULT '0' COMMENT '视频状态：0-已合成，1-已发布',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '合成时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for ai_voicelist
@@ -113,7 +120,7 @@ CREATE TABLE `ai_voicelist` (
   `end_time` int(11) DEFAULT NULL COMMENT '结束时间（毫秒）',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=599 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=848 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for ai_voicemerge
@@ -126,4 +133,4 @@ CREATE TABLE `ai_voicemerge` (
   `voice_status` int(11) DEFAULT '1' COMMENT '语音状态：0-未选中，1-已选中',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;

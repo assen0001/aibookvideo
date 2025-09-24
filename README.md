@@ -7,8 +7,8 @@
  2. N8N智能体流程调度平台
  3. 大语言模型：Ollama+DeepSeek
  4. ComfyUI+Flux生图模型
- 5. 通义万相wan2.1视频模型
- 6. Coqui-TTS语音合成
+ 5. 通义万相Wan2.1视频模型
+ 6. Index-TTS(2.0)语音合成
 
 ## 平台优势
  1. 开源本地化部署
@@ -51,12 +51,13 @@ pip install -r requirements.txt
 ```
 
 5. 配置环境
-   - 本地部署N8N智能体流程调度平台，并在.env中配置调用API地址
-   - 本地部署Ollama + DeepSeek，并在.env中配置调用API地址
+   - 本地部署N8N智能体流程调度平台，导入并配置工作流文件，并在.env中配置调用API地址
+   - 本地部署Ollama + DeepSeek，并在N8N中配置Ollama调用API地址
    - 本地部署ComfyUI + Flux + Wan2.1，并在.env中配置调用API地址
-   - 本地部署Coqui-TTS语音合成模型，并在.env中配置调用API地址。详见：https://github.com/assen0001/coquitts
-   - 修改.env中数据库配置信息
-   - 如果你不会部署上面本地服务，可以联系我们提供已经部署好的镜像文件。
+   - 本地部署Index-TTS(2.0)语音合成模型，并在.env中配置调用API地址
+   - 用aibookvideo.sql文件创建数据库，修改.env中数据库配置信息
+   - 部署过程中有任何问题可以联系我们提供技术支持和部署服务。
+   - 也可以用部署好的仙宫云镜象，地址为：https://www.xiangongyun.com/image/detail/5bd7a57f-d8a2-42e4-b25f-5399e6903976
 
 ## 使用说明
 1. 启动服务
@@ -87,6 +88,12 @@ python main.py
 
 
 ## 版本更新日志
+- 1.4.0 2025.9.23
+  - 更换语音合成模型为Index-TTS(2.0)
+  - 优化语音合成质量，提升语音质量和自然度
+  - 更新默认音色文件
+  - 拆分comfyui的flux和wan2.1模型成2个api链接
+
 - 1.3.1 2025.8.25
   - 优化coqui-tts语音生成代码
   - 优化n8n流程调度地址参数

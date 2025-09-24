@@ -16,6 +16,7 @@ db_config = {
     'N8N_URL': os.getenv('N8N_URL').rstrip('/') if os.getenv('N8N_URL') else None,
     'COMFYUI_URL': os.getenv('COMFYUI_URL').rstrip('/') if os.getenv('COMFYUI_URL') else None,
     'COQUITTS_URL': os.getenv('COQUITTS_URL').rstrip('/') if os.getenv('COQUITTS_URL') else None,
+    'INDEXTTS_URL': os.getenv('INDEXTTS_URL').rstrip('/') if os.getenv('INDEXTTS_URL') else None,
     'AIBOOKVIDEO_URL': os.getenv('AIBOOKVIDEO_URL').rstrip('/') if os.getenv('AIBOOKVIDEO_URL') else None,
     'COMFYUI_URL_WAN': os.getenv('COMFYUI_URL_WAN').rstrip('/') if os.getenv('COMFYUI_URL_WAN') else None,
     'COMFYUI_URL_PATH': os.getenv('COMFYUI_URL_PATH').rstrip('/') if os.getenv('COMFYUI_URL_PATH') else None
@@ -39,6 +40,7 @@ def get_config():
         'N8N_URL': db_config.get('N8N_URL'),
         'COMFYUI_URL': db_config.get('COMFYUI_URL'),
         'COQUITTS_URL': db_config.get('COQUITTS_URL'),
+        'INDEXTTS_URL': db_config.get('INDEXTTS_URL'),
         'AIBOOKVIDEO_URL': db_config.get('AIBOOKVIDEO_URL'),
         'COMFYUI_URL_WAN': db_config.get('COMFYUI_URL_WAN'),
         'COMFYUI_URL_PATH': db_config.get('COMFYUI_URL_PATH')
